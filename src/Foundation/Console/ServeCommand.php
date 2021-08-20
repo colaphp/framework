@@ -161,7 +161,7 @@ class ServeCommand extends Command
 
                 foreach ($config['services'] ?? [] as $server) {
                     if (!class_exists($server['handler'])) {
-                        echo "process error: class {$config['handler']} not exists\r\n";
+                        echo "process error: class {$server['handler']} not exists\r\n";
                         continue;
                     }
                     $listen = new Worker($server['listen'] ?? null, $server['context'] ?? []);
