@@ -273,11 +273,13 @@ function worker_bind($worker, $class)
  */
 function cpu_count()
 {
+    if (DIRECTORY_SEPARATOR === '\\') {
+        return 1;
+    }
     if (strtolower(PHP_OS) === 'darwin') {
         $count = shell_exec('sysctl -n machdep.cpu.core_count');
     } else {
         $count = shell_exec('nproc');
     }
-    $count = (int)$count > 0 ? (int)$count : 4;
-    return $count;
+    return (int)$count > 0 ? (int)$count : 4;
 }
