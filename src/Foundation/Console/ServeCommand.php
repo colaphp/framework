@@ -112,7 +112,7 @@ class ServeCommand extends Command
                 Dotenv::createMutable(base_path())->load();
             }
             Config::reload(config_path());
-            foreach (config('bootstrap', []) as $class_name) {
+            foreach (config('app.providers', []) as $class_name) {
                 /** @var \Swift\Contracts\Bootstrap $class_name */
                 $class_name::start($worker);
             }
@@ -152,7 +152,7 @@ class ServeCommand extends Command
                     Dotenv::createMutable(base_path())->load();
                     Config::reload(config_path());
 
-                    $bootstrap = $config['bootstrap'] ?? config('bootstrap', []);
+                    $bootstrap = config('app.providers', []);
                     if (!in_array(LogProvider::class, $bootstrap)) {
                         $bootstrap[] = LogProvider::class;
                     }
