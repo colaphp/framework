@@ -22,25 +22,25 @@ class JWT
      * 钥匙
      * @var string
      */
-    public $key = '';
+    public string $key = '';
 
     /**
      * 私钥
      * @var string
      */
-    public $privateKey = '';
+    public string $privateKey = '';
 
     /**
      * 公钥
      * @var string
      */
-    public $publicKey = '';
+    public string $publicKey = '';
 
     /**
      * 签名算法
      * @var string
      */
-    public $algorithm = self::ALGORITHM_HS256;
+    public string $algorithm = self::ALGORITHM_HS256;
 
     /**
      * JWT constructor.
@@ -56,22 +56,13 @@ class JWT
      * @param string $token
      * @return array
      */
-    public function parse(string $token)
+    public function parse(string $token): array
     {
-        switch ($this->algorithm) {
-            case self::ALGORITHM_HS256:
-            case self::ALGORITHM_HS384:
-            case self::ALGORITHM_HS512:
-                return (array)\Firebase\JWT\JWT::decode($token, $this->key, [$this->algorithm]);
-                break;
-            case self::ALGORITHM_RS256:
-            case self::ALGORITHM_RS384:
-            case self::ALGORITHM_RS512:
-                return (array)\Firebase\JWT\JWT::decode($token, $this->publicKey, [$this->algorithm]);
-                break;
-            default:
-                throw new \InvalidArgumentException('Invalid signature algorithm.');
-        }
+        return match ($this->algorithm) {
+            self::ALGORITHM_HS256, self::ALGORITHM_HS384, self::ALGORITHM_HS512 => (array)\Firebase\JWT\JWT::decode($token, $this->key, [$this->algorithm]),
+            self::ALGORITHM_RS256, self::ALGORITHM_RS384, self::ALGORITHM_RS512 => (array)\Firebase\JWT\JWT::decode($token, $this->publicKey, [$this->algorithm]),
+            default => throw new \InvalidArgumentException('Invalid signature algorithm.'),
+        };
     }
 
     /**
@@ -79,21 +70,12 @@ class JWT
      * @param array $payload
      * @return string
      */
-    public function create(array $payload)
+    public function create(array $payload): string
     {
-        switch ($this->algorithm) {
-            case self::ALGORITHM_HS256:
-            case self::ALGORITHM_HS384:
-            case self::ALGORITHM_HS512:
-                return \Firebase\JWT\JWT::encode($payload, $this->key, $this->algorithm);
-                break;
-            case self::ALGORITHM_RS256:
-            case self::ALGORITHM_RS384:
-            case self::ALGORITHM_RS512:
-                return \Firebase\JWT\JWT::encode($payload, $this->privateKey, $this->algorithm);
-                break;
-            default:
-                throw new \InvalidArgumentException('Invalid signature algorithm.');
-        }
+        return match ($this->algorithm) {
+            self::ALGORITHM_HS256, self::ALGORITHM_HS384, self::ALGORITHM_HS512 => \Firebase\JWT\JWT::encode($payload, $this->key, $this->algorithm),
+            self::ALGORITHM_RS256, self::ALGORITHM_RS384, self::ALGORITHM_RS512 => \Firebase\JWT\JWT::encode($payload, $this->privateKey, $this->algorithm),
+            default => throw new \InvalidArgumentException('Invalid signature algorithm.'),
+        };
     }
 }

@@ -14,7 +14,7 @@ class BearerTokenExtractor implements TokenExtractorInterface
     /**
      * @var MessageInterface
      */
-    public $request;
+    public MessageInterface $request;
 
     /**
      * BearerTokenExtractor constructor.
@@ -29,10 +29,10 @@ class BearerTokenExtractor implements TokenExtractorInterface
      * 提取token
      * @return string
      */
-    public function extractToken()
+    public function extractToken(): string
     {
         $authorization = $this->request->getHeaderLine('authorization');
-        if (strpos($authorization, 'Bearer ') !== 0) {
+        if (!str_starts_with($authorization, 'Bearer ')) {
             throw new ExtractTokenException('Failed to extract token.');
         }
         return (string)substr($authorization, 7);

@@ -12,7 +12,7 @@ class Authorization
      * jwt
      * @var JWT
      */
-    public $jwt;
+    public JWT $jwt;
 
     /**
      * Authorization constructor.
@@ -28,7 +28,7 @@ class Authorization
      * @param TokenExtractorInterface $tokenExtractor
      * @return array
      */
-    public function getPayload(TokenExtractorInterface $tokenExtractor)
+    public function getPayload(TokenExtractorInterface $tokenExtractor): array
     {
         $token = $tokenExtractor->extractToken();
         return $this->jwt->parse($token);
@@ -39,7 +39,7 @@ class Authorization
      * @param array $payload
      * @return string
      */
-    public function createToken(array $payload)
+    public function createToken(array $payload): string
     {
         return $this->jwt->create($payload);
     }
