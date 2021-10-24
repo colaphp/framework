@@ -25,7 +25,7 @@ class LogProvider implements Bootstrap
     /**
      * @var array
      */
-    protected static $_instance = [];
+    protected static array $_instance = [];
 
     /**
      * @param Worker $worker

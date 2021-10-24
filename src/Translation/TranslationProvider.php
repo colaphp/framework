@@ -19,7 +19,7 @@ class TranslationProvider implements Bootstrap
     /**
      * @var array
      */
-    protected static $_translator = [];
+    protected static array $_translator = [];
 
     /**
      * @param Worker $worker

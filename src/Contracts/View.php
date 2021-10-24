@@ -20,5 +20,5 @@ interface View
      * @param null $app
      * @return string
      */
-    static function render($template, $vars, $app = null);
+    static function render($template, $vars, $app = null): string;
 }

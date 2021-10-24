@@ -2,6 +2,10 @@
 
 namespace Swift\Contracts\Support;
 
+/**
+ * Interface Arrayable
+ * @package Swift\Contracts\Support
+ */
 interface Arrayable
 {
     /**
@@ -9,5 +13,5 @@ interface Arrayable
      *
      * @return array
      */
-    public function toArray();
+    public function toArray(): array;
 }

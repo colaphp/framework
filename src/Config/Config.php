@@ -11,13 +11,13 @@ class Config
     /**
      * @var array
      */
-    protected static $_config = [];
+    protected static array $_config = [];
 
     /**
      * @param $config_path
      * @param array $exclude_file
      */
-    public static function load($config_path, $exclude_file = [])
+    public static function load($config_path, array $exclude_file = [])
     {
         foreach (glob($config_path . '/*.php') as $file) {
             $basename = basename($file, '.php');
@@ -54,7 +54,7 @@ class Config
      * @param $config_path
      * @param array $exclude_file
      */
-    public static function reload($config_path, $exclude_file = [])
+    public static function reload($config_path, array $exclude_file = [])
     {
         static::$_config = [];
         static::load($config_path, $exclude_file);
