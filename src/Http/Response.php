@@ -41,12 +41,12 @@ class Response extends WorkerResponse
      * @param $file
      * @return bool
      */
-    protected function notModifiedSince($file)
+    protected function notModifiedSince($file): bool
     {
         $if_modified_since = App::request()->header('if-modified-since');
         if ($if_modified_since === null || !($mtime = filemtime($file))) {
             return false;
         }
-        return $if_modified_since === date('D, d M Y H:i:s', $mtime) . ' ' . date_default_timezone_get();
+        return $if_modified_since === gmdate('D, d M Y H:i:s', $mtime) . ' GMT';
     }
 }
