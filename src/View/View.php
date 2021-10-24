@@ -3,6 +3,7 @@
 namespace Swift\View;
 
 /**
+ * 模版赋值
  * Class View
  * @package Swift\View
  */

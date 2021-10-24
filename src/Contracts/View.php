@@ -12,7 +12,7 @@ interface View
      * @param $name
      * @param null $value
      */
-    static function assign($name, $value = null);
+    public static function assign($name, $value = null);
 
     /**
      * @param $template
@@ -20,5 +20,5 @@ interface View
      * @param null $app
      * @return string
      */
-    static function render($template, $vars, $app = null): string;
+    public static function render($template, $vars, $app = null): string;
 }

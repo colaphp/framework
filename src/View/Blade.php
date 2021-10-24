@@ -29,9 +29,9 @@ class Blade implements ViewContract
      * @param $template
      * @param $vars
      * @param string $app
-     * @return mixed
+     * @return string
      */
-    public static function render($template, $vars, $app = null)
+    public static function render($template, $vars, $app = null): string
     {
         static $views = [];
 
