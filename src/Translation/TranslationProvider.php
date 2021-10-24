@@ -17,9 +17,9 @@ use Workerman\Worker;
 class TranslationProvider implements Bootstrap
 {
     /**
-     * @var array
+     * @var null
      */
-    protected static array $_translator = [];
+    protected static $_translator = null;
 
     /**
      * @param Worker $worker
