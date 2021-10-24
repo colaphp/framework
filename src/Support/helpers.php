@@ -11,7 +11,7 @@ use Swift\Translation\TranslationProvider;
  * @param string $path
  * @return string
  */
-function base_path($path = '')
+function base_path(string $path = ''): string
 {
     return BASE_PATH . ($path ? DIRECTORY_SEPARATOR . $path : $path);
 }
@@ -20,7 +20,7 @@ function base_path($path = '')
  * @param string $path
  * @return string
  */
-function app_path($path = '')
+function app_path(string $path = ''): string
 {
     return base_path('app') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
 }
@@ -29,7 +29,7 @@ function app_path($path = '')
  * @param string $path
  * @return string
  */
-function config_path($path = '')
+function config_path(string $path = ''): string
 {
     return base_path('config') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
 }
@@ -38,7 +38,7 @@ function config_path($path = '')
  * @param string $path
  * @return string
  */
-function database_path($path = '')
+function database_path(string $path = ''): string
 {
     return base_path('database') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
 }
@@ -47,7 +47,7 @@ function database_path($path = '')
  * @param string $path
  * @return string
  */
-function public_path($path = '')
+function public_path(string $path = ''): string
 {
     return base_path('public') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
 }
@@ -56,7 +56,7 @@ function public_path($path = '')
  * @param string $path
  * @return string
  */
-function resource_path($path = '')
+function resource_path(string $path = ''): string
 {
     return base_path('resources') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
 }
@@ -65,18 +65,18 @@ function resource_path($path = '')
  * @param string $path
  * @return string
  */
-function runtime_path($path = '')
+function runtime_path(string $path = ''): string
 {
     return base_path('runtime') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
 }
 
 /**
+ * @param string $body
  * @param int $status
  * @param array $headers
- * @param string $body
  * @return Response
  */
-function response($body = '', $status = 200, $headers = array())
+function response(string $body = '', int $status = 200, array $headers = []): Response
 {
     return new Response($status, $headers, $body);
 }
@@ -86,7 +86,7 @@ function response($body = '', $status = 200, $headers = array())
  * @param int $options
  * @return Response
  */
-function json($data, $options = JSON_UNESCAPED_UNICODE)
+function json($data, int $options = JSON_UNESCAPED_UNICODE): Response
 {
     return new Response(200, ['Content-Type' => 'application/json'], json_encode($data, $options));
 }
@@ -95,7 +95,7 @@ function json($data, $options = JSON_UNESCAPED_UNICODE)
  * @param $xml
  * @return Response
  */
-function xml($xml)
+function xml($xml): Response
 {
     if ($xml instanceof SimpleXMLElement) {
         $xml = $xml->asXML();
@@ -108,7 +108,7 @@ function xml($xml)
  * @param string $callback_name
  * @return Response
  */
-function jsonp($data, $callback_name = 'callback')
+function jsonp($data, string $callback_name = 'callback'): Response
 {
     if (!is_scalar($data) && null !== $data) {
         $data = json_encode($data);
@@ -122,7 +122,7 @@ function jsonp($data, $callback_name = 'callback')
  * @param array $headers
  * @return Response
  */
-function redirect($location, $status = 302, $headers = [])
+function redirect($location, int $status = 302, array $headers = []): Response
 {
     $response = new Response($status, ['Location' => $location]);
     if (!empty($headers)) {
@@ -135,9 +135,9 @@ function redirect($location, $status = 302, $headers = [])
  * @param $template
  * @param array $vars
  * @param null $app
- * @return string
+ * @return Response
  */
-function view($template, $vars = [], $app = null)
+function view($template, array $vars = [], $app = null): Response
 {
     static $handler;
     if (null === $handler) {
@@ -149,7 +149,7 @@ function view($template, $vars = [], $app = null)
 /**
  * @return Request
  */
-function request()
+function request(): Request
 {
     return App::request();
 }
@@ -169,7 +169,7 @@ function config($key = null, $default = null)
  * @param array $parameters
  * @return string
  */
-function route($name, $parameters = [])
+function route($name, array $parameters = [])
 {
     $route = Route::getByName($name);
     if (!$route) {
