@@ -2,6 +2,7 @@
 
 namespace Swift\Container;
 
+use DI\ContainerBuilder;
 use Psr\Container\ContainerInterface;
 use Swift\Contracts\Bootstrap;
 use Workerman\Worker;
@@ -26,7 +27,12 @@ class ContainerProvider implements Bootstrap
      */
     public static function start($worker)
     {
-        static::$_instance = include base_path() . '/bootstrap/app.php';
+        $app = new ContainerBuilder();
+
+        $app->useAutowiring(true);
+        $app->useAnnotations(true);
+
+        static::$_instance = $app->build();
     }
 
     /**
