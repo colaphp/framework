@@ -4,11 +4,9 @@ namespace Swift\Redis;
 
 use Illuminate\Redis\Connections\Connection;
 use Illuminate\Redis\RedisManager;
-use Swift\Contracts\Bootstrap;
-use Workerman\Worker;
 
 /**
- * Class RedisProvider
+ * Class Redis
  * @package Swift\Redis
  *
  * Strings methods
@@ -194,19 +192,18 @@ class RedisProvider implements Bootstrap
     /**
      * @var RedisManager
      */
-    protected static $_manager = null;
+    protected static $_instance = null;
 
     /**
-     * @param Worker $worker
-     * @return void
+     * @return RedisManager
      */
-    public static function start($worker)
+    public static function instance()
     {
-        if (!class_exists('\Illuminate\Redis\RedisManager')) {
-            return;
+        if (!static::$_instance) {
+            $config = config('redis');
+            static::$_instance = new RedisManager('', 'phpredis', $config);
         }
-        $config = config('redis');
-        static::$_manager = new RedisManager('', 'phpredis', $config);
+        return static::$_instance;
     }
 
     /**
@@ -215,7 +212,7 @@ class RedisProvider implements Bootstrap
      */
     public static function connection($name = 'default')
     {
-        return static::$_manager->connection($name);
+        return static::instance()->connection($name);
     }
 
     /**
@@ -225,6 +222,6 @@ class RedisProvider implements Bootstrap
      */
     public static function __callStatic($name, $arguments)
     {
-        return static::$_manager->connection('default')->{$name}(... $arguments);
+        return static::instance()->connection('default')->{$name}(... $arguments);
     }
 }
