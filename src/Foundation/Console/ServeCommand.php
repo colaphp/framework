@@ -5,11 +5,11 @@ namespace Swift\Foundation\Console;
 use Dotenv\Dotenv;
 use ErrorException;
 use Swift\Config\Config;
-use Swift\Container\ContainerProvider;
+use Swift\Container\Container;
 use Swift\Foundation\App;
 use Swift\Http\Middleware\Middleware;
 use Swift\Http\Request;
-use Swift\Log\LogProvider;
+use Swift\Log\Log;
 use Swift\Routing\Route;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -75,6 +75,7 @@ class ServeCommand extends Command
 
         Worker::$pidFile = $config['pid_file'];
         Worker::$stdoutFile = $config['stdout_file'];
+        Worker::$logFile = $config['log_file'];
         TcpConnection::$defaultMaxPackageSize = $config['max_package_size'] ?? 10 * 1024 * 1024;
 
         $worker = new Worker($config['listen'], $config['context']);
@@ -116,7 +117,7 @@ class ServeCommand extends Command
                 /** @var \Swift\Contracts\Bootstrap $class_name */
                 $class_name::start($worker);
             }
-            $app = new App($worker, ContainerProvider::instance(), LogProvider::channel('default'), app_path(), public_path());
+            $app = new App($worker, Container::instance(), Log::channel('default'), app_path(), public_path());
             Route::load(base_path() . '/routes/route.php');
             Middleware::load(config('middleware', []));
             Middleware::load(['__static__' => config('static.middleware', [])]);
@@ -153,9 +154,6 @@ class ServeCommand extends Command
                     Config::reload(config_path());
 
                     $bootstrap = config('app.providers', []);
-                    if (!in_array(LogProvider::class, $bootstrap)) {
-                        $bootstrap[] = LogProvider::class;
-                    }
                     foreach ($bootstrap as $class_name) {
                         /** @var \Swift\Contracts\Bootstrap $class_name */
                         $class_name::start($worker);
@@ -170,7 +168,7 @@ class ServeCommand extends Command
                         if (isset($server['listen'])) {
                             echo "listen: {$server['listen']}\n";
                         }
-                        $instance = ContainerProvider::make($server['handler'], $server['constructor'] ?? []);
+                        $instance = Container::make($server['handler'], $server['constructor'] ?? []);
                         worker_bind($listen, $instance);
                         $listen->listen();
                     }
@@ -181,7 +179,7 @@ class ServeCommand extends Command
                             return;
                         }
 
-                        $instance = ContainerProvider::make($config['handler'], $config['constructor'] ?? []);
+                        $instance = Container::make($config['handler'], $config['constructor'] ?? []);
                         worker_bind($worker, $instance);
                     }
                 };
