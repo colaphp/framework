@@ -8,12 +8,13 @@ use Illuminate\Container\Container;
 use Jenssegers\Mongodb\Connection;
 use Swift\Contracts\Bootstrap;
 use Workerman\Worker;
+use Workerman\Timer;
 
 /**
- * Class LaravelProvider
+ * Class DatabaseProvider
  * @package Swift\Database
  */
-class LaravelProvider implements Bootstrap
+class DatabaseProvider implements Bootstrap
 {
     /**
      * @param Worker $worker
@@ -25,6 +26,12 @@ class LaravelProvider implements Bootstrap
         if (!class_exists('\Illuminate\Database\Capsule\Manager')) {
             return;
         }
+
+        $connections = config('database.connections');
+        if (!$connections) {
+            return;
+        }
+
         $capsule = new Capsule;
         $configs = config('database');
 
@@ -47,5 +54,14 @@ class LaravelProvider implements Bootstrap
         $capsule->setAsGlobal();
 
         $capsule->bootEloquent();
+
+        // Heartbeat
+        Timer::add(55, function () use ($connections) {
+            foreach ($connections as $key => $item) {
+                if ($item['driver'] == 'mysql') {
+                    Db::connection($key)->select('select 1');
+                }
+            }
+        });
     }
 }
