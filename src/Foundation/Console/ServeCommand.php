@@ -50,10 +50,12 @@ class ServeCommand extends Command
         $argv[1] = $input->getArgument('action');
         $argv[2] = $input->getOption('daemon') ? '-d' : '';
 
-        if (method_exists('Dotenv\Dotenv', 'createUnsafeImmutable')) {
-            Dotenv::createUnsafeImmutable(base_path())->load();
-        } else {
-            Dotenv::createMutable(base_path())->load();
+        if (class_exists('Dotenv\Dotenv')) {
+            if (method_exists('Dotenv\Dotenv', 'createUnsafeImmutable')) {
+                Dotenv::createUnsafeImmutable(base_path())->load();
+            } else {
+                Dotenv::createMutable(base_path())->load();
+            }
         }
 
         Config::load(config_path());
@@ -107,10 +109,12 @@ class ServeCommand extends Command
             foreach (config('autoload.files', []) as $file) {
                 include_once $file;
             }
-            if (method_exists('Dotenv\Dotenv', 'createUnsafeMutable')) {
-                Dotenv::createUnsafeMutable(base_path())->load();
-            } else {
-                Dotenv::createMutable(base_path())->load();
+            if (class_exists('Dotenv\Dotenv')) {
+                if (method_exists('Dotenv\Dotenv', 'createUnsafeMutable')) {
+                    Dotenv::createUnsafeMutable(base_path())->load();
+                } else {
+                    Dotenv::createMutable(base_path())->load();
+                }
             }
             Config::reload(config_path());
             foreach (config('app.providers', []) as $class_name) {
@@ -150,7 +154,9 @@ class ServeCommand extends Command
                     foreach (config('autoload.files', []) as $file) {
                         include_once $file;
                     }
-                    Dotenv::createMutable(base_path())->load();
+                    if (class_exists('Dotenv\Dotenv')) {
+                        Dotenv::createMutable(base_path())->load();
+                    }
                     Config::reload(config_path());
 
                     $bootstrap = config('app.providers', []);
