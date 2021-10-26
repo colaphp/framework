@@ -16,9 +16,9 @@ use Workerman\Worker;
 class Translation
 {
     /**
-     * @var
+     * @var Translator
      */
-    protected static $_instance;
+    protected static $_instance = null;
 
     /**
      * @return Translator
