@@ -5,7 +5,7 @@ use Swift\Foundation\App;
 use Swift\Http\Request;
 use Swift\Http\Response;
 use Swift\Routing\Route;
-use Swift\Translation\TranslationProvider;
+use Swift\Translation\Translation;
 
 /**
  * @param string $path
@@ -205,7 +205,7 @@ function session($key = null, $default = null)
  */
 function trans(string $id, array $parameters = [], string $domain = null, string $locale = null)
 {
-    $res = TranslationProvider::trans($id, $parameters, $domain, $locale);
+    $res = Translation::trans($id, $parameters, $domain, $locale);
     return $res === '' ? $id : $res;
 }
 
@@ -216,9 +216,9 @@ function trans(string $id, array $parameters = [], string $domain = null, string
 function locale(string $locale = null)
 {
     if (!$locale) {
-        return TranslationProvider::getLocale();
+        return Translation::getLocale();
     }
-    TranslationProvider::setLocale($locale);
+    Translation::setLocale($locale);
 }
 
 /**
