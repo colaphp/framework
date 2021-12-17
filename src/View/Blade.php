@@ -38,7 +38,7 @@ class Blade implements ViewContract
         $app = is_null($app) ? request()->app : $app;
 
         if (!isset($views[$app])) {
-            $viewPath = $app === '' ? public_path('themes/' . config('app.default_themes')) : app_path($app . '/Views');
+            $viewPath = resource_path('views' . ($app ? DIRECTORY_SEPARATOR . $app : ''));
             $cachePath = runtime_path('views' . ($app ? DIRECTORY_SEPARATOR . $app : ''));
             if (!is_dir($cachePath)) {
                 mkdir($cachePath, 0755, true);
