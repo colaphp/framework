@@ -6,7 +6,7 @@ DaoPHP is accessible, yet powerful, providing tools needed for large, robust app
 
 ## Learning DaoPHP
 
-DaoPHP has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [DaoPHP documentation](https://daophp.com/docs) is in-depth and complete, making it a breeze to get started learning the framework.
+DaoPHP has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [DaoPHP documentation](https://www.daophp.com) is in-depth and complete, making it a breeze to get started learning the framework.
 
 ## Security Vulnerabilities
 
