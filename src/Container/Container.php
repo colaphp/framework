@@ -2,7 +2,6 @@
 
 namespace Swift\Container;
 
-use DI\ContainerBuilder;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -25,10 +24,7 @@ class Container
     public static function instance()
     {
         if (!static::$_instance) {
-            $app = new ContainerBuilder();
-            $app->useAutowiring(true);
-            $app->useAnnotations(true);
-            static::$_instance = $app->build();
+            static::$_instance = include base_path('bootstrap/app.php');
         }
         return static::$_instance;
     }
