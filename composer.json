@@ -33,7 +33,7 @@
     "workerman/crontab": "^1.0",
     "workerman/validation": "^3.0",
     "workerman/workerman": "^4.0",
-    "yansongda/pay": "^3.0"
+    "yansongda/pay": "^3.0.21"
   },
   "autoload": {
     "psr-4": {
