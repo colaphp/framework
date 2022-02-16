@@ -36,9 +36,9 @@ class Log
             foreach ($configs as $channel => $config) {
                 $logger = static::$_instance[$channel] = new Logger($channel);
                 foreach ($config['handlers'] as $handler_config) {
-                    $handler = new $handler_config['class'](... \array_values($handler_config['constructor']));
+                    $handler = new $handler_config['class'](...array_values($handler_config['constructor']));
                     if (isset($handler_config['formatter'])) {
-                        $formatter = new $handler_config['formatter']['class'](... \array_values($handler_config['formatter']['constructor']));
+                        $formatter = new $handler_config['formatter']['class'](...array_values($handler_config['formatter']['constructor']));
                         $handler->setFormatter($formatter);
                     }
                     $logger->pushHandler($handler);
