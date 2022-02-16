@@ -27,7 +27,6 @@
     "overtrue/easy-sms": "^2.1",
     "overtrue/pinyin": "^4.0.8",
     "overtrue/wechat": "^5.16.4",
-    "php-di/php-di": "^6.3",
     "phpoffice/phpspreadsheet": "^1.21",
     "vlucas/phpdotenv": "^5.4",
     "workerman/crontab": "^1.0",
