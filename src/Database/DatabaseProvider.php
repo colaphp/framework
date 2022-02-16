@@ -40,10 +40,12 @@ class DatabaseProvider implements Bootstrap
             return new Connection($config);
         });
 
-        $default_config = $configs['connections'][$configs['default']];
-        $capsule->addConnection($default_config);
+        if (isset($configs['default'])) {
+            $default_config = $connections[$configs['default']];
+            $capsule->addConnection($default_config);
+        }
 
-        foreach ($configs['connections'] as $name => $config) {
+        foreach ($connections as $name => $config) {
             $capsule->addConnection($config, $name);
         }
 
