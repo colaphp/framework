@@ -4,7 +4,6 @@ namespace Swift\Routing;
 
 use FastRoute\Dispatcher\GroupCountBased;
 use FastRoute\RouteCollector;
-use Swift\Foundation\App;
 use Swift\Routing\Route as Router;
 
 /**
@@ -36,7 +35,7 @@ class BaseRoute
     /**
      * @var array
      */
-    protected $_middleware = [];
+    protected $_middlewares = [];
 
     /**
      * Route constructor.
@@ -76,9 +75,9 @@ class BaseRoute
     public function middleware($middleware = null)
     {
         if ($middleware === null) {
-            return $this->_middleware;
+            return $this->_middlewares;
         }
-        $this->_middleware = array_merge($this->_middleware, (array)$middleware);
+        $this->_middlewares = array_merge($this->_middlewares, (array)$middleware);
         return $this;
     }
 
@@ -111,11 +110,7 @@ class BaseRoute
      */
     public function getMiddleware()
     {
-        $middleware = [];
-        foreach ($this->_middleware as $class_name) {
-            $middleware[] = [App::container()->get($class_name), 'process'];
-        }
-        return array_reverse($middleware);
+        return $this->_middlewares;
     }
 
     /**
