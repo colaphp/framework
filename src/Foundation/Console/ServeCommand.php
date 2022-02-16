@@ -5,12 +5,12 @@ namespace Swift\Foundation\Console;
 use Dotenv\Dotenv;
 use ErrorException;
 use Swift\Config\Config;
-use Swift\Container\Container;
 use Swift\Foundation\App;
 use Swift\Http\Middleware\Middleware;
 use Swift\Http\Request;
 use Swift\Log\Log;
 use Swift\Routing\Route;
+use Swift\Support\Container;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -101,7 +101,7 @@ class ServeCommand extends Command
         }
 
         $worker->onWorkerStart = function ($worker) {
-            require_once dirname(__DIR__, 3) . '/Support/bootstrap.php';
+            require_once dirname(__DIR__, 2) . '/Support/bootstrap.php';
             $app = new App($worker, Container::instance(), Log::channel('default'), app_path(), public_path());
             Http::requestClass(Request::class);
             $worker->onMessage = [$app, 'onMessage'];
