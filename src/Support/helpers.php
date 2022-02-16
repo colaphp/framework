@@ -222,6 +222,43 @@ function locale(string $locale = null)
 }
 
 /**
+ * 复制目录
+ * @param $source
+ * @param $dest
+ * @return void
+ */
+function copy_dir($source, $dest)
+{
+    if (is_dir($source)) {
+        if (!is_dir($dest)) {
+            mkdir($dest);
+        }
+        $files = scandir($source);
+        foreach ($files as $file) {
+            if ($file !== "." && $file !== "..") {
+                copy_dir("$source/$file", "$dest/$file");
+            }
+        }
+    } else if (file_exists($source)) {
+        copy($source, $dest);
+    }
+}
+
+/**
+ * 删除目录
+ * @param $dir
+ * @return bool
+ */
+function remove_dir($dir)
+{
+    $files = array_diff(scandir($dir), array('.','..'));
+    foreach ($files as $file) {
+        (is_dir("$dir/$file") && !is_link($dir)) ? remove_dir("$dir/$file") : unlink("$dir/$file");
+    }
+    return rmdir($dir);
+}
+
+/**
  * 字符串命名风格转换
  * type 0 将Java风格转换为C的风格 1 将C风格转换为Java的风格
  * @param string $name 字符串
@@ -266,6 +303,59 @@ function worker_bind($worker, $class)
     if (method_exists($class, 'onWorkerStart')) {
         call_user_func([$class, 'onWorkerStart'], $worker);
     }
+}
+
+/**
+ * @param $process_name
+ * @param $config
+ * @return void
+ */
+function worker_start($process_name, $config) {
+    $worker = new Worker($config['listen'] ?? null, $config['context'] ?? []);
+    $property_map = [
+        'count',
+        'user',
+        'group',
+        'reloadable',
+        'reusePort',
+        'transport',
+        'protocol',
+    ];
+    $worker->name = $process_name;
+    foreach ($property_map as $property) {
+        if (isset($config[$property])) {
+            $worker->$property = $config[$property];
+        }
+    }
+
+    $worker->onWorkerStart = function ($worker) use ($config) {
+        require_once __DIR__ . '/bootstrap.php';
+
+        foreach ($config['services'] ?? [] as $server) {
+            if (!class_exists($server['handler'])) {
+                echo "process error: class {$server['handler']} not exists\r\n";
+                continue;
+            }
+            $listen = new Worker($server['listen'] ?? null, $server['context'] ?? []);
+            if (isset($server['listen'])) {
+                echo "listen: {$server['listen']}\n";
+            }
+            $instance = Container::make($server['handler'], $server['constructor'] ?? []);
+            worker_bind($listen, $instance);
+            $listen->listen();
+        }
+
+        if (isset($config['handler'])) {
+            if (!class_exists($config['handler'])) {
+                echo "process error: class {$config['handler']} not exists\r\n";
+                return;
+            }
+
+            $instance = Container::make($config['handler'], $config['constructor'] ?? []);
+            worker_bind($worker, $instance);
+        }
+
+    };
 }
 
 /**
