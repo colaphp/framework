@@ -36,9 +36,9 @@ class Request extends WorkerRequest
     }
 
     /**
-     * @param $name
-     * @param null $default
-     * @return null
+     * @param string $name
+     * @param string|null $default
+     * @return mixed|null
      */
     public function input($name, $default = null)
     {
@@ -48,38 +48,6 @@ class Request extends WorkerRequest
         }
         $get = $this->get();
         return isset($get[$name]) ? $get[$name] : $default;
-    }
-
-    /**
-     * Determine if the request contains a given input item key.
-     *
-     * @param  string|array  $key
-     * @return bool
-     */
-    public function exists($key)
-    {
-        return $this->has($key);
-    }
-
-    /**
-     * Determine if the request contains a given input item key.
-     *
-     * @param  string|array  $key
-     * @return bool
-     */
-    public function has($key)
-    {
-        $keys = is_array($key) ? $key : func_get_args();
-
-        $input = $this->all();
-
-        foreach ($keys as $value) {
-            if (! Arr::has($input, $value)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**
@@ -112,8 +80,8 @@ class Request extends WorkerRequest
     }
 
     /**
-     * @param null $name
-     * @return null| array | UploadFile
+     * @param string|null $name
+     * @return null|array|UploadFile
      */
     public function file($name = null)
     {
@@ -122,6 +90,7 @@ class Request extends WorkerRequest
             return $name === null ? [] : null;
         }
         if ($name !== null) {
+            // Multi files
             if (is_array(current($files))) {
                 return $this->parseFiles($files);
             }
@@ -129,6 +98,7 @@ class Request extends WorkerRequest
         }
         $upload_files = [];
         foreach ($files as $name => $file) {
+            // Multi files
             if (is_array(current($file))) {
                 $upload_files[$name] = $this->parseFiles($file);
             } else {
@@ -148,14 +118,18 @@ class Request extends WorkerRequest
     }
 
     /**
-     * @param $files
+     * @param array $files
      * @return array
      */
     protected function parseFiles($files)
     {
         $upload_files = [];
-        foreach ($files as $file) {
-            $upload_files[$file['name']] = $this->parseFile($file);
+        foreach ($files as $key => $file) {
+            if (is_array(current($file))) {
+                $upload_files[$key] = $this->parseFiles($file);
+            } else {
+                $upload_files[$key] = $this->parseFile($file);
+            }
         }
         return $upload_files;
     }
@@ -203,8 +177,8 @@ class Request extends WorkerRequest
             return $remote_ip;
         }
         return $this->header('client-ip', $this->header('x-forwarded-for',
-            $this->header('x-real-ip', $this->header('x-client-ip',
-                $this->header('via', $remote_ip)))));
+                   $this->header('x-real-ip', $this->header('x-client-ip',
+                   $this->header('via', $remote_ip)))));
     }
 
     /**
