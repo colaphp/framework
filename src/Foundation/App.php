@@ -87,11 +87,6 @@ class App
     /**
      * @var int
      */
-    protected static $_maxRequestCount = 1000000;
-
-    /**
-     * @var int
-     */
     protected static $_gracefulStopTimer = null;
 
     /**
@@ -108,12 +103,7 @@ class App
         static::$_container = $container;
         static::$_logger = $logger;
         static::$_publicPath = $public_path;
-        static::$_appPath = $app_path;
-
-        $max_requst_count = (int)Config::get('server.max_request');
-        if ($max_requst_count > 0) {
-            static::$_maxRequestCount = $max_requst_count;
-        }
+        static::$_appPath = realpath($app_path);
         static::$_supportStaticFiles = Config::get('static.enable', true);
         static::$_supportPHPFiles = Config::get('app.support_php_files', false);
     }
@@ -125,11 +115,6 @@ class App
      */
     public function onMessage(TcpConnection $connection, $request)
     {
-        static $request_count = 0;
-        if (++$request_count > static::$_maxRequestCount) {
-            static::tryToGracefulExit();
-        }
-
         try {
             static::$_request = $request;
             static::$_connection = $connection;
@@ -142,11 +127,11 @@ class App
                 return null;
             }
 
-            if (static::findRoute($connection, $path, $key, $request)) {
+            if (static::findFile($connection, $path, $key, $request)) {
                 return null;
             }
 
-            if (static::findFile($connection, $path, $key, $request)) {
+            if (static::findRoute($connection, $path, $key, $request)) {
                 return null;
             }
 
@@ -171,7 +156,7 @@ class App
     }
 
     /**
-     * @return callable|Closure
+     * @return Closure
      */
     protected static function getFallback()
     {
@@ -218,14 +203,22 @@ class App
     protected static function getCallback($app, $call, $args = null, $with_global_middleware = true, $route = null)
     {
         $args = $args === null ? null : array_values($args);
-        $middleware = Middleware::getMiddleware($app, $with_global_middleware);
-        $middleware = $route ? array_merge($route->getMiddleware(), $middleware) : $middleware;
-        if ($middleware) {
-            $callback = array_reduce($middleware, function ($carry, $pipe) {
+        $middlewares = [];
+        if ($route) {
+            $route_middlewares = array_reverse($route->getMiddleware());
+            foreach ($route_middlewares as $class_name) {
+                $middlewares[] = [App::container()->get($class_name), 'process'];
+            }
+        }
+        $middlewares = array_merge($middlewares, Middleware::getMiddleware($app, $with_global_middleware));
+
+        if ($middlewares) {
+            $callback = array_reduce($middlewares, function ($carry, $pipe) {
                 return function ($request) use ($carry, $pipe) {
                     return $pipe($request, $carry);
                 };
             }, function ($request) use ($call, $args) {
+
                 try {
                     if ($args === null) {
                         $response = $call($request);
@@ -353,7 +346,7 @@ class App
         }
 
         static::$_callbacks[$key] = [static::getCallback('__static__', function ($request) use ($file) {
-            clearstatcache(null, $file);
+            clearstatcache(true, $file);
             if (!is_file($file)) {
                 $callback = static::getFallback();
                 return $callback($request);
@@ -546,19 +539,5 @@ class App
             }
         }
         return $method;
-    }
-
-    /**
-     * @return void
-     */
-    protected static function tryToGracefulExit()
-    {
-        if (static::$_gracefulStopTimer === null) {
-            static::$_gracefulStopTimer = Timer::add(rand(1, 10), function () {
-                if (count(static::$_worker->connections) === 0) {
-                    Worker::stopAll();
-                }
-            });
-        }
     }
 }
