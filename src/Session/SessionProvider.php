@@ -22,6 +22,6 @@ class SessionProvider implements Bootstrap
         $config = config('session');
         Http::sessionName($config['session_name']);
         SessionBase::handlerClass($config['handler'], $config['config'][$config['type']]);
-        session_set_cookie_params(0, $config['path'], $config['domain'], $config['secure'], $config['http_only']);
+        // session_set_cookie_params(0, $config['path'], $config['domain'], $config['secure'], $config['http_only']);
     }
 }
