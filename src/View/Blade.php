@@ -12,7 +12,6 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\Factory;
-use Illuminate\View\ViewServiceProvider;
 
 /**
  * Class Blade
@@ -40,7 +39,7 @@ class Blade implements FactoryContract
         $this->container = $container ?: new Container;
 
         $this->setupContainer((array) $viewPaths, $cachePath);
-        (new ViewServiceProvider($this->container))->register();
+        (new Provider($this->container))->register();
 
         $this->factory = $this->container->get('view');
         $this->compiler = $this->container->get('blade.compiler');
