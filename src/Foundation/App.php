@@ -382,10 +382,10 @@ class App
     protected static function parseControllerAction($path)
     {
         if ($path === '/' || $path === '') {
-            $controller_class = 'App\Http\Controllers\IndexController';
+            $controller_class = 'App\Http\Controllers\Web\IndexController';
             $action = 'index';
             if (class_exists($controller_class) && is_callable([$instance = static::$_container->get($controller_class), $action])) {
-                $controller_class = \App\Http\Controllers\IndexController::class;
+                $controller_class = \App\Http\Controllers\Web\IndexController::class;
                 return [
                     'app' => '',
                     'controller' => $controller_class,
@@ -408,7 +408,7 @@ class App
         if (!empty($explode[1])) {
             $action = $explode[1];
         }
-        $controller_class = "App\\Http\\Controllers\\{$controller}Controller";
+        $controller_class = "App\\Http\\Controllers\\Web\\{$controller}Controller";
         if (static::loadController($controller_class) && is_callable([$instance = static::$_container->get($controller_class), $action])) {
             $controller_class = get_class($instance);
             return [
