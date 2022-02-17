@@ -51,6 +51,38 @@ class Request extends WorkerRequest
     }
 
     /**
+     * Determine if the request contains a given input item key.
+     *
+     * @param  string|array  $key
+     * @return bool
+     */
+    public function exists($key)
+    {
+        return $this->has($key);
+    }
+
+    /**
+     * Determine if the request contains a given input item key.
+     *
+     * @param  string|array  $key
+     * @return bool
+     */
+    public function has($key)
+    {
+        $keys = is_array($key) ? $key : func_get_args();
+
+        $input = $this->all();
+
+        foreach ($keys as $value) {
+            if (! Arr::has($input, $value)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @param array $keys
      * @return array
      */
