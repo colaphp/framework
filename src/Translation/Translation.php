@@ -68,6 +68,6 @@ class Translation
      */
     public static function __callStatic($name, $arguments)
     {
-        return static::$_instance->{$name}(... $arguments);
+        return static::instance()->{$name}(... $arguments);
     }
 }
