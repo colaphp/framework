@@ -112,13 +112,6 @@ class ServeCommand extends Command
             foreach (config('process', []) as $process_name => $config) {
                 worker_start($process_name, $config);
             }
-            foreach (config('plugin', []) as $firm => $projects) {
-                foreach ($projects as $name => $project) {
-                    foreach ($project['process'] ?? [] as $process_name => $config) {
-                        worker_start("plugin.$firm.$name.$process_name", $config);
-                    }
-                }
-            }
         }
 
         Worker::runAll();

@@ -45,25 +45,11 @@ Route::container($container);
 Middleware::container($container);
 
 Middleware::load(config('middleware', []));
-foreach (config('plugin', []) as $firm => $projects) {
-    foreach ($projects as $name => $project) {
-        Middleware::load($project['middleware'] ?? []);
-    }
-}
 Middleware::load(['__static__' => config('static.middleware', [])]);
 
 foreach (config('app.providers', []) as $class_name) {
     /** @var \Swift\Contracts\Bootstrap $class_name */
     $class_name::start($worker);
-}
-
-foreach (config('plugin', []) as $firm => $projects) {
-    foreach ($projects as $name => $project) {
-        foreach ($project['bootstrap'] ?? [] as $class_name) {
-            /** @var \Swift\Contracts\Bootstrap $class_name */
-            $class_name::start($worker);
-        }
-    }
 }
 
 Route::load(base_path('routes'));

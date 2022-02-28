@@ -65,35 +65,8 @@ class Config
             static::$_config = array_merge_recursive(static::$_config, $config);
         }
 
-        // Merge database config
-        foreach (static::$_config['plugin'] ?? [] as $firm => $projects) {
-            foreach ($projects as $name => $project) {
-                foreach ($project['database']['connections'] ?? [] as $key => $connection) {
-                    static::$_config['database']['connections']["plugin.$firm.$name.$key"] = $connection;
-                }
-            }
-        }
         if (!empty(static::$_config['database']['connections'])) {
             static::$_config['database']['default'] = static::$_config['database']['default'] ?? key(static::$_config['database']['connections']);
-        }
-        // Merge thinkorm config
-        foreach (static::$_config['plugin'] ?? [] as $firm => $projects) {
-            foreach ($projects as $name => $project) {
-                foreach ($project['thinkorm']['connections'] ?? [] as $key => $connection) {
-                    static::$_config['thinkorm']['connections']["plugin.$firm.$name.$key"] = $connection;
-                }
-            }
-        }
-        if (!empty(static::$_config['thinkorm']['connections'])) {
-            static::$_config['thinkorm']['default'] = static::$_config['thinkorm']['default'] ?? key(static::$_config['thinkorm']['connections']);
-        }
-        // Merge redis config
-        foreach (static::$_config['plugin'] ?? [] as $firm => $projects) {
-            foreach ($projects as $name => $project) {
-                foreach ($project['redis'] ?? [] as $key => $connection) {
-                    static::$_config['redis']["plugin.$firm.$name.$key"] = $connection;
-                }
-            }
         }
 
         static::$_loaded = true;
