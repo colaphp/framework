@@ -2,9 +2,8 @@
 
 namespace Swift\Translation;
 
-use Symfony\Component\Translation\Loader\PhpFileLoader;
 use Symfony\Component\Translation\Translator;
-use Workerman\Worker;
+use Swift\Foundation\Exception\NotFoundException;
 
 /**
  * Class TranslationProvider
@@ -18,7 +17,7 @@ class Translation
     /**
      * @var Translator
      */
-    protected static $_instance = null;
+    protected static $_instance;
 
     /**
      * @return Translator
