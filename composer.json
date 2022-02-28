@@ -41,14 +41,6 @@
       "src/Support/helpers.php"
     ]
   },
-  "scripts": {
-    "post-package-install": [
-      "Swift\\Support\\Plugin::install"
-    ],
-    "pre-package-uninstall": [
-      "Swift\\Support\\Plugin::uninstall"
-    ]
-  },
   "suggest": {
     "ext-event": "For better performance. "
   },

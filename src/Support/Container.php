@@ -3,6 +3,7 @@
 namespace Swift\Support;
 
 use Psr\Container\ContainerInterface;
+use Swift\Container\Container as BaseContainer;
 
 /**
  * Class Container
@@ -16,7 +17,7 @@ class Container
     /**
      * @var ContainerInterface
      */
-    protected static $_instance = null;
+    protected static $_instance;
 
     /**
      * @return ContainerInterface
@@ -24,7 +25,7 @@ class Container
     public static function instance()
     {
         if (!static::$_instance) {
-            static::$_instance = include base_path('bootstrap/app.php');
+            static::$_instance = new BaseContainer();
         }
         return static::$_instance;
     }
