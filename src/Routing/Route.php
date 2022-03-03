@@ -297,27 +297,16 @@ class Route
     /**
      * @return bool
      */
-    public static function load($config_path)
+    public static function load($route_path)
     {
-        if (!is_dir($config_path)) {
-            $config_path = pathinfo($config_path, PATHINFO_DIRNAME);
+        if (!is_dir($route_path)) {
+            $route_path = pathinfo($route_path, PATHINFO_DIRNAME);
         }
-        static::$_dispatcher = simpleDispatcher(function (RouteCollector $route) use ($config_path) {
+        static::$_dispatcher = simpleDispatcher(function (RouteCollector $route) use ($route_path) {
             Route::setCollector($route);
-            $route_config_file = $config_path . '/route.php';
-            if (is_file($route_config_file)) {
+            $route_config_file = $route_path . '/route.php';
+            if (\is_file($route_config_file)) {
                 require_once $route_config_file;
-            }
-            foreach (glob($config_path.'/plugin/*/*/route.php') as $file) {
-                $app_config_file = pathinfo($file, PATHINFO_DIRNAME).'/app.php';
-                if (!is_file($app_config_file)) {
-                    continue;
-                }
-                $app_config = include $app_config_file;
-                if (empty($app_config['enable'])) {
-                    continue;
-                }
-                require_once $file;
             }
         });
         return static::$_hasRoute;

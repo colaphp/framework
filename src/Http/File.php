@@ -1,6 +1,6 @@
 <?php
 
-namespace Swift\Filesystem;
+namespace Swift\Http;
 
 use SplFileInfo;
 use Swift\Foundation\Exception\FileException;

@@ -9,6 +9,7 @@ use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use ReflectionClass;
 use SplFileInfo;
 use Swift\Config\Config;
 use Swift\Foundation\Exception\ExceptionHandler;
@@ -25,7 +26,7 @@ use Workerman\Worker;
 
 /**
  * Class App
- * @package Swift\Foundation
+ * @package Webman
  */
 class App
 {
@@ -390,7 +391,7 @@ class App
                     'app' => '',
                     'controller' => $controller_class,
                     'action' => static::getRealMethod($controller_class, $action),
-                    'instance' => static::$_container->get($controller_class),
+                    'instance' => $instance,
                 ];
             }
             return false;
@@ -409,13 +410,12 @@ class App
             $action = $explode[1];
         }
         $controller_class = "App\\Http\\Controllers\\Web\\{$controller}Controller";
-        if (static::loadController($controller_class) && is_callable([$instance = static::$_container->get($controller_class), $action])) {
-            $controller_class = get_class($instance);
+        if (static::loadController($controller_class) && ($controller_class = (new ReflectionClass($controller_class))->name) && is_callable([$instance = static::$_container->get($controller_class), $action])) {
             return [
                 'app' => '',
                 'controller' => $controller_class,
                 'action' => static::getRealMethod($controller_class, $action),
-                'instance' => static::$_container->get($controller_class),
+                'instance' => $instance,
             ];
         }
 
@@ -429,13 +429,12 @@ class App
             }
         }
         $controller_class = "App\\Http\\Controllers\\$app\\{$controller}Controller";
-        if (static::loadController($controller_class) && is_callable([$instance = static::$_container->get($controller_class), $action])) {
-            $controller_class = get_class($instance);
+        if (static::loadController($controller_class) && ($controller_class = (new ReflectionClass($controller_class))->name) && is_callable([$instance = static::$_container->get($controller_class), $action])) {
             return [
                 'app' => $app,
                 'controller' => $controller_class,
                 'action' => static::getRealMethod($controller_class, $action),
-                'instance' => static::$_container->get($controller_class),
+                'instance' => $instance,
             ];
         }
         return false;

@@ -1,13 +1,15 @@
 <?php
 
 use Swift\Config\Config;
+use Swift\Container\Container;
 use Swift\Foundation\App;
 use Swift\Http\Request;
 use Swift\Http\Response;
 use Swift\Routing\Route;
 use Swift\Translation\Translation;
+use Workerman\Worker;
 
-define('FRAMEWORK_VERSION', '1.0.6');
+define('FRAMEWORK_VERSION', '1.0.7');
 define('BASE_PATH', realpath(dirname(__DIR__, 5)));
 
 /**

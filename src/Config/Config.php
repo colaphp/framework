@@ -15,23 +15,23 @@ class Config
     /**
      * @var array
      */
-    protected static $_config = [];
+    protected static array $_config = [];
 
     /**
      * @var string
      */
-    protected static $_configPath = '';
+    protected static string $_configPath = '';
 
     /**
      * @var bool
      */
-    protected static $_loaded = false;
+    protected static bool $_loaded = false;
 
     /**
      * @param $config_path
      * @param array $exclude_file
      */
-    public static function load($config_path, $exclude_file = [])
+    public static function load($config_path, array $exclude_file = [])
     {
         static::$_configPath = $config_path;
         if (!$config_path) {
@@ -146,7 +146,6 @@ class Config
         }
         return $value;
     }
-
 
     /**
      * @param $config_path
