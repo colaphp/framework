@@ -1,0 +1,22 @@
+{
+    "name": "swift/cookie",
+    "description": "The Swift Cookie package.",
+    "license": "MIT",
+    "homepage": "https://www.daophp.com",
+    "support": {
+        "issues": "https://github.com/daophp/framework/issues",
+        "source": "https://github.com/daophp/framework"
+    },
+    "require": {
+        "php": "^8.0.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Swift\\Cookie\\": ""
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}
