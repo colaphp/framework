@@ -8,7 +8,7 @@ use Swift\Routing\Route;
 use Swift\Translation\Translation;
 
 define('FRAMEWORK_VERSION', '1.0.6');
-define('BASE_PATH', realpath(dirname(__DIR__, 4)));
+define('BASE_PATH', realpath(dirname(__DIR__, 5)));
 
 /**
  * @param string $path
