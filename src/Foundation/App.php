@@ -26,7 +26,7 @@ use Workerman\Worker;
 
 /**
  * Class App
- * @package Webman
+ * @package Swift\Foundation
  */
 class App
 {

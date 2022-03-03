@@ -36,6 +36,10 @@ if (class_exists('Dotenv\Dotenv') && file_exists(base_path().'/.env')) {
 
 Config::reload(config_path());
 
+foreach (config('autoload.files', []) as $file) {
+    include_once $file;
+}
+
 $container = Container::instance();
 Route::container($container);
 Middleware::container($container);
