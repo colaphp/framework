@@ -3,58 +3,39 @@
 namespace Swift\Container;
 
 use Psr\Container\ContainerInterface;
-use Swift\Exception\NotFoundException;
 
 /**
  * Class Container
- * @package Swift\Container
+ * @package support
  * @method static mixed get($name)
  * @method static mixed make($name, array $parameters)
  * @method static bool has($name)
  */
-class Container implements ContainerInterface
+class Container
 {
     /**
-     * @var array
+     * @var ContainerInterface
      */
-    protected $_instances = [];
+    protected static $_instance = null;
 
     /**
-     * @param string $name
-     * @return mixed
-     * @throws NotFoundException
+     * @return ContainerInterface
      */
-    public function get($name)
+    public static function instance()
     {
-        if (!isset($this->_instances[$name])) {
-            if (!class_exists($name)) {
-                throw new NotFoundException("Class '$name' not found");
-            }
-            $this->_instances[$name] = new $name();
+        if (!static::$_instance) {
+            static::$_instance = new PsrContainer();
         }
-        return $this->_instances[$name];
-    }
-
-    /**
-     * @param string $name
-     * @return bool
-     */
-    public function has($name)
-    {
-        return array_key_exists($name, $this->_instances);
+        return static::$_instance;
     }
 
     /**
      * @param $name
-     * @param array $constructor
+     * @param $arguments
      * @return mixed
-     * @throws NotFoundException
      */
-    public function make($name, array $constructor = [])
+    public static function __callStatic($name, $arguments)
     {
-        if (!class_exists($name)) {
-            throw new NotFoundException("Class '$name' not found");
-        }
-        return new $name(... array_values($constructor));
+        return static::instance()->{$name}(... $arguments);
     }
 }

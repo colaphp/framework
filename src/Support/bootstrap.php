@@ -2,9 +2,9 @@
 
 use Dotenv\Dotenv;
 use Swift\Config\Config;
+use Swift\Container\Container;
 use Swift\Http\Middleware\Middleware;
 use Swift\Routing\Route;
-use Swift\Support\Container;
 
 $worker = $worker ?? null;
 
@@ -35,10 +35,6 @@ if (class_exists('Dotenv\Dotenv') && file_exists(base_path().'/.env')) {
 }
 
 Config::reload(config_path());
-
-foreach (config('autoload.files', []) as $file) {
-    include_once $file;
-}
 
 $container = Container::instance();
 Route::container($container);

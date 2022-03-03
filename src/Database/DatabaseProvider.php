@@ -2,9 +2,9 @@
 
 namespace Swift\Database;
 
+use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
-use Illuminate\Container\Container;
 use Jenssegers\Mongodb\Connection;
 use Swift\Contracts\Bootstrap;
 use Workerman\Worker;
@@ -32,11 +32,12 @@ class DatabaseProvider implements Bootstrap
             return;
         }
 
-        $capsule = new Capsule;
+        $capsule = new Capsule();
         $configs = config('database');
 
-        $capsule->getDatabaseManager()->extend('mongodb', function($config, $name) {
+        $capsule->getDatabaseManager()->extend('mongodb', function ($config, $name) {
             $config['name'] = $name;
+
             return new Connection($config);
         });
 
@@ -50,7 +51,7 @@ class DatabaseProvider implements Bootstrap
         }
 
         if (class_exists('\Illuminate\Events\Dispatcher')) {
-            $capsule->setEventDispatcher(new Dispatcher(new Container));
+            $capsule->setEventDispatcher(new Dispatcher(new Container()));
         }
 
         $capsule->setAsGlobal();
