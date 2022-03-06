@@ -24,7 +24,7 @@ class PsrContainer implements ContainerInterface
      * @return mixed
      * @throws NotFoundException
      */
-    public function get($name)
+    public function get(string $name)
     {
         if (!isset($this->_instances[$name])) {
             if (!class_exists($name)) {
@@ -39,7 +39,7 @@ class PsrContainer implements ContainerInterface
      * @param string $name
      * @return bool
      */
-    public function has($name)
+    public function has(string $name): bool
     {
         return array_key_exists($name, $this->_instances);
     }
