@@ -3,7 +3,7 @@
 namespace Swift\Auth;
 
 use Swift\Auth\Exception\ExtractTokenException;
-use Psr\Http\Message\MessageInterface;
+use Swift\Http\Request;
 
 /**
  * Class BearerTokenExtractor
@@ -12,15 +12,15 @@ use Psr\Http\Message\MessageInterface;
 class BearerTokenExtractor implements TokenExtractorInterface
 {
     /**
-     * @var MessageInterface
+     * @var Request
      */
-    public MessageInterface $request;
+    public Request $request;
 
     /**
      * BearerTokenExtractor constructor.
-     * @param MessageInterface $request
+     * @param Request $request
      */
-    public function __construct(MessageInterface $request)
+    public function __construct(Request $request)
     {
         $this->request = $request;
     }
@@ -31,7 +31,7 @@ class BearerTokenExtractor implements TokenExtractorInterface
      */
     public function extractToken(): string
     {
-        $authorization = $this->request->getHeaderLine('authorization');
+        $authorization = $this->request->header('Authorization');
         if (!str_starts_with($authorization, 'Bearer ')) {
             throw new ExtractTokenException('Failed to extract token.');
         }

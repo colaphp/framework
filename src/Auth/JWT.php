@@ -48,7 +48,18 @@ class JWT
      */
     public function __construct(array $config = [])
     {
-        // 
+        if (isset($config['algorithm'])) {
+            $this->algorithm = $config['algorithm'];
+        }
+        if (isset($config['key'])) {
+            $this->key = $config['key'];
+        }
+        if (isset($config['privateKey'])) {
+            $this->privateKey = $config['privateKey'];
+        }
+        if (isset($config['publicKey'])) {
+            $this->publicKey = $config['publicKey'];
+        }
     }
 
     /**
