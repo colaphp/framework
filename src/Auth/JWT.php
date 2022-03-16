@@ -2,6 +2,8 @@
 
 namespace Swift\Auth;
 
+use Firebase\JWT\Key;
+
 /**
  * Class JWT
  * @package Swift\Auth
@@ -70,8 +72,8 @@ class JWT
     public function parse(string $token): array
     {
         return match ($this->algorithm) {
-            self::ALGORITHM_HS256, self::ALGORITHM_HS384, self::ALGORITHM_HS512 => (array)\Firebase\JWT\JWT::decode($token, $this->key, [$this->algorithm]),
-            self::ALGORITHM_RS256, self::ALGORITHM_RS384, self::ALGORITHM_RS512 => (array)\Firebase\JWT\JWT::decode($token, $this->publicKey, [$this->algorithm]),
+            self::ALGORITHM_HS256, self::ALGORITHM_HS384, self::ALGORITHM_HS512 => (array)\Firebase\JWT\JWT::decode($token, new Key($this->key, $this->algorithm)),
+            self::ALGORITHM_RS256, self::ALGORITHM_RS384, self::ALGORITHM_RS512 => (array)\Firebase\JWT\JWT::decode($token, new Key($this->publicKey, $this->algorithm)),
             default => throw new \InvalidArgumentException('Invalid signature algorithm.'),
         };
     }

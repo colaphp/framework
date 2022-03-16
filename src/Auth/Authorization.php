@@ -35,6 +35,16 @@ class Authorization
     }
 
     /**
+     * 根据token获取有效荷载
+     * @param string $token
+     * @return array
+     */
+    public function getPayloadByToken(string $token): array
+    {
+        return $this->jwt->parse($token);
+    }
+
+    /**
      * 创建token
      * @param array $payload
      * @return string
