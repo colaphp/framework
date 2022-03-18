@@ -2,6 +2,7 @@
 
 namespace Swift\Cache;
 
+use Swift\Redis\Redis;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 

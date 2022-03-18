@@ -187,7 +187,7 @@ use Illuminate\Redis\RedisManager;
  * @method static mixed getPersistentID()
  * @method static mixed getAuth()
  */
-class Redis implements Bootstrap
+class Redis
 {
     /**
      * @var RedisManager
