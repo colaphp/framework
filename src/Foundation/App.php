@@ -19,6 +19,7 @@ use Swift\Http\Request;
 use Swift\Http\Response;
 use Swift\Routing\BaseRoute;
 use Swift\Routing\Route;
+use Swift\Support\Str;
 use Throwable;
 use Workerman\Connection\TcpConnection;
 use Workerman\Timer;
@@ -123,7 +124,7 @@ class App
             $key = $request->method() . $path;
 
             if (isset(static::$_callbacks[$key])) {
-                list($callback, $request->app, $request->controller, $request->action) = static::$_callbacks[$key];
+                [$callback, $request->app, $request->controller, $request->action, $request->route] = static::$_callbacks[$key];
                 static::send($connection, $callback($request), $request);
                 return null;
             }
@@ -147,8 +148,8 @@ class App
             $controller = $controller_and_action['controller'];
             $action = $controller_and_action['action'];
             $callback = static::getCallback($app, [$controller_and_action['instance'], $action]);
-            static::$_callbacks[$key] = [$callback, $app, $controller, $action];
-            list($callback, $request->app, $request->controller, $request->action) = static::$_callbacks[$key];
+            static::$_callbacks[$key] = [$callback, $app, $controller, $action, null];
+            [$callback, $request->app, $request->controller, $request->action, $request->route] = static::$_callbacks[$key];
             static::send($connection, $callback($request), $request);
         } catch (Throwable $e) {
             static::send($connection, static::exceptionResponse($e, $request), $request);
@@ -299,8 +300,8 @@ class App
                 $action = static::getRealMethod($controller, $callback[1]) ?? '';
             }
             $callback = static::getCallback($app, $callback, $args, true, $route);
-            static::$_callbacks[$key] = [$callback, $app, $controller ? $controller : '', $action];
-            list($callback, $request->app, $request->controller, $request->action) = static::$_callbacks[$key];
+            static::$_callbacks[$key] = [$callback, $app, $controller ? $controller : '', $action, $route];
+            [$callback, $request->app, $request->controller, $request->action, $request->route] = static::$_callbacks[$key];
             static::send($connection, $callback($request), $request);
             if (count(static::$_callbacks) > 1024) {
                 static::clearCache();
@@ -336,8 +337,8 @@ class App
             }
             static::$_callbacks[$key] = [function ($request) use ($file) {
                 return static::execPhpFile($file);
-            }, '', '', ''];
-            list($callback, $request->app, $request->controller, $request->action) = static::$_callbacks[$key];
+            }, '', '', '', null];
+            [$callback, $request->app, $request->controller, $request->action, $request->route] = static::$_callbacks[$key];
             static::send($connection, static::execPhpFile($file), $request);
             return true;
         }
@@ -353,8 +354,8 @@ class App
                 return $callback($request);
             }
             return (new Response())->file($file);
-        }, null, false), '', '', ''];
-        list($callback, $request->app, $request->controller, $request->action) = static::$_callbacks[$key];
+        }, null, false), '', '', '', null];
+        [$callback, $request->app, $request->controller, $request->action, $request->route] = static::$_callbacks[$key];
         static::send($connection, $callback($request), $request);
         return true;
     }
@@ -382,17 +383,13 @@ class App
      */
     protected static function parseControllerAction($path)
     {
+        $module = config('app.default_module', '');
+        $suffix = config('app.controller_suffix', '');
         if ($path === '/' || $path === '') {
-            $controller_class = 'App\Http\Controllers\Web\IndexController';
+            $controller_class = 'App\\Http\\Controllers\\' . $module . '\\Index' . $suffix;
             $action = 'index';
-            if (class_exists($controller_class) && is_callable([$instance = static::$_container->get($controller_class), $action])) {
-                $controller_class = \App\Http\Controllers\Web\IndexController::class;
-                return [
-                    'app' => '',
-                    'controller' => $controller_class,
-                    'action' => static::getRealMethod($controller_class, $action),
-                    'instance' => $instance,
-                ];
+            if ($controller_action = static::getControllerAction($controller_class, $action)) {
+                return $controller_action;
             }
             return false;
         }
@@ -402,36 +399,47 @@ class App
         $explode = explode('/', $path);
         $action = 'index';
 
-        $controller = parse_name($explode[0], 1);
+        $controller = Str::studly($explode[0]);
         if ($controller === '') {
             return false;
         }
         if (!empty($explode[1])) {
-            $action = $explode[1];
+            $action = Str::camel($explode[1]);
         }
-        $controller_class = "App\\Http\\Controllers\\Web\\{$controller}Controller";
-        if (static::loadController($controller_class) && ($controller_class = (new ReflectionClass($controller_class))->name) && is_callable([$instance = static::$_container->get($controller_class), $action])) {
-            return [
-                'app' => '',
-                'controller' => $controller_class,
-                'action' => static::getRealMethod($controller_class, $action),
-                'instance' => $instance,
-            ];
+        $controller_class = 'App\\Http\\Controllers\\' . $module . '\\' . $controller . $suffix;
+        if ($controller_action = static::getControllerAction($controller_class, $action)) {
+            return $controller_action;
         }
 
-        $app = parse_name($explode[0], 1);
+        $module = Str::studly($explode[0]);
         $controller = 'Index';
         $action = 'index';
         if (!empty($explode[1])) {
-            $controller = parse_name($explode[1], 1);
+            $controller = Str::studly($explode[1]);
             if (!empty($explode[2])) {
-                $action = $explode[2];
+                $action = Str::camel($explode[2]);
             }
         }
-        $controller_class = "App\\Http\\Controllers\\$app\\{$controller}Controller";
+        $controller_class = 'App\\Http\\Controllers\\' . $module . '\\' . $controller . $suffix;
+        if ($controller_action = static::getControllerAction($controller_class, $action)) {
+            return $controller_action;
+        }
+        return false;
+    }
+
+    /**
+     * @param $controller_class
+     * @param $action
+     * @return array|false
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \ReflectionException
+     */
+    protected static function getControllerAction($controller_class, $action)
+    {
         if (static::loadController($controller_class) && ($controller_class = (new ReflectionClass($controller_class))->name) && is_callable([$instance = static::$_container->get($controller_class), $action])) {
             return [
-                'app' => $app,
+                'app' => static::getAppByController($controller_class),
                 'controller' => $controller_class,
                 'action' => static::getRealMethod($controller_class, $action),
                 'instance' => $instance,
@@ -492,11 +500,11 @@ class App
         if ($controller_calss[0] === '\\') {
             $controller_calss = substr($controller_calss, 1);
         }
-        $tmp = explode('\\', $controller_calss, 3);
-        if (!isset($tmp[1])) {
+        $tmp = explode('\\', $controller_calss, 5);
+        if (!isset($tmp[3])) {
             return '';
         }
-        return $tmp[1] === 'controller' ? '' : $tmp[1];
+        return $tmp[3];
     }
 
     /**
