@@ -232,7 +232,7 @@ function locale(string $locale = null)
  * @param $dest
  * @return void
  */
-function copy_dir($source, $dest)
+function copy_dir($source, $dest, $overwrite = false)
 {
     if (is_dir($source)) {
         if (!is_dir($dest)) {
@@ -244,7 +244,7 @@ function copy_dir($source, $dest)
                 copy_dir("$source/$file", "$dest/$file");
             }
         }
-    } else if (file_exists($source)) {
+    } else if (file_exists($source) && ($overwrite || !file_exists($dest))) {
         copy($source, $dest);
     }
 }
