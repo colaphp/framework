@@ -256,6 +256,9 @@ function copy_dir($source, $dest, $overwrite = false)
  */
 function remove_dir($dir)
 {
+    if (is_link($dir) || is_file($dir)) {
+        return unlink($dir);
+    }
     $files = array_diff(scandir($dir), array('.','..'));
     foreach ($files as $file) {
         (is_dir("$dir/$file") && !is_link($dir)) ? remove_dir("$dir/$file") : unlink("$dir/$file");
