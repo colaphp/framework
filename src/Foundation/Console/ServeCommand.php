@@ -80,6 +80,7 @@ class ServeCommand extends Command
         Worker::$pidFile = $config['pid_file'];
         Worker::$stdoutFile = $config['stdout_file'];
         Worker::$logFile = $config['log_file'];
+        Worker::$eventLoopClass = $config['event_loop'] ?? '';
         TcpConnection::$defaultMaxPackageSize = $config['max_package_size'] ?? 10 * 1024 * 1024;
         if (property_exists(Worker::class, 'statusFile')) {
             Worker::$statusFile = $config['status_file'] ?? '';
@@ -103,7 +104,7 @@ class ServeCommand extends Command
         $worker->onWorkerStart = function ($worker) {
             require_once dirname(__DIR__, 2) . '/Support/bootstrap.php';
             $app = new App($worker, Container::instance(), Log::channel('default'), app_path(), public_path());
-            Http::requestClass(Request::class);
+            Http::requestClass(config('server.request_class') ?? Request::class);
             $worker->onMessage = [$app, 'onMessage'];
         };
 
