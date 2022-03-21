@@ -28,6 +28,11 @@ class Request extends WorkerRequest
     public $action = null;
 
     /**
+     * @var Route
+     */
+    public $route = null;
+
+    /**
      * @return mixed|null
      */
     public function all()
@@ -53,7 +58,7 @@ class Request extends WorkerRequest
     /**
      * Determine if the request contains a given input item key.
      *
-     * @param  string|array  $key
+     * @param string|array $key
      * @return bool
      */
     public function exists($key)
@@ -64,7 +69,7 @@ class Request extends WorkerRequest
     /**
      * Determine if the request contains a given input item key.
      *
-     * @param  string|array  $key
+     * @param string|array $key
      * @return bool
      */
     public function has($key)
@@ -74,7 +79,7 @@ class Request extends WorkerRequest
         $input = $this->all();
 
         foreach ($keys as $value) {
-            if (! Arr::has($input, $value)) {
+            if (!Arr::has($input, $value)) {
                 return false;
             }
         }
@@ -208,9 +213,11 @@ class Request extends WorkerRequest
         if ($safe_mode && !static::isIntranetIp($remote_ip)) {
             return $remote_ip;
         }
-        return $this->header('client-ip', $this->header('x-forwarded-for',
-                   $this->header('x-real-ip', $this->header('x-client-ip',
-                   $this->header('via', $remote_ip)))));
+        $via = $this->header('via', $remote_ip);
+        $client_ip = $this->header('x-client-ip', $via);
+        $real_ip = $this->header('x-real-ip', $client_ip);
+        $forwarded = $this->header('x-forwarded-for', $real_ip);
+        return $this->header('client-ip', $forwarded);
     }
 
     /**
