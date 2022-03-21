@@ -86,26 +86,28 @@ class ServeCommand extends Command
             Worker::$statusFile = $config['status_file'] ?? '';
         }
 
-        $worker = new Worker($config['listen'], $config['context']);
-        $property_map = [
-            'name',
-            'count',
-            'user',
-            'group',
-            'reusePort',
-            'transport',
-        ];
-        foreach ($property_map as $property) {
-            if (isset($config[$property])) {
-                $worker->$property = $config[$property];
+        if ($config['listen']) {
+            $worker = new Worker($config['listen'], $config['context']);
+            $property_map = [
+                'name',
+                'count',
+                'user',
+                'group',
+                'reusePort',
+                'transport',
+            ];
+            foreach ($property_map as $property) {
+                if (isset($config[$property])) {
+                    $worker->$property = $config[$property];
+                }
             }
-        }
 
-        $worker->onWorkerStart = function ($worker) {
-            require_once dirname(__DIR__, 2) . '/Support/bootstrap.php';
-            $app = new App($worker, Container::instance(), Log::channel('default'), app_path(), public_path());
-            Http::requestClass(config('server.request_class') ?? Request::class);
-            $worker->onMessage = [$app, 'onMessage'];
+            $worker->onWorkerStart = function ($worker) {
+                require_once dirname(__DIR__, 2) . '/Support/bootstrap.php';
+                $app = new App($worker, Container::instance(), Log::channel('default'), app_path(), public_path());
+                Http::requestClass(config('server.request_class') ?? Request::class);
+                $worker->onMessage = [$app, 'onMessage'];
+            };
         };
 
         // Windows does not support custom processes.
