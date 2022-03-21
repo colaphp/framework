@@ -9,8 +9,6 @@ use Monolog\Logger;
 
 /**
  * Class Log
- * @package Swift\Log
- *
  * @method static void log($level, $message, array $context = [])
  * @method static void debug($message, array $context = [])
  * @method static void info($message, array $context = [])
@@ -20,6 +18,7 @@ use Monolog\Logger;
  * @method static void critical($message, array $context = [])
  * @method static void alert($message, array $context = [])
  * @method static void emergency($message, array $context = [])
+ * @package Swift\Log
  */
 class Log
 {
