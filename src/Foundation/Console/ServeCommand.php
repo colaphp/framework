@@ -105,7 +105,7 @@ class ServeCommand extends Command
             $worker->onWorkerStart = function ($worker) {
                 require_once dirname(__DIR__, 2) . '/Support/bootstrap.php';
                 $app = new App($worker, Container::instance(), Log::channel('default'), app_path(), public_path());
-                Http::requestClass(config('server.request_class') ?? Request::class);
+                Http::requestClass(config('app.request_class', Request::class));
                 $worker->onMessage = [$app, 'onMessage'];
             };
         };
