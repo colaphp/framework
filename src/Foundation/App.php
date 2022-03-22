@@ -385,45 +385,37 @@ class App
     {
         $module = config('app.default_module', '');
         $suffix = config('app.controller_suffix', '');
+
         if ($path === '/' || $path === '') {
-            $controller_class = 'App\\Http\\Controllers\\' . $module . '\\Index' . $suffix;
             $action = 'index';
+            $controller_class = 'App\\Http\\Controllers\\' . $module . '\\Index' . $suffix;
             if ($controller_action = static::getControllerAction($controller_class, $action)) {
                 return $controller_action;
             }
             return false;
         }
+
         if ($path && $path[0] === '/') {
             $path = substr($path, 1);
         }
-        $explode = explode('/', $path);
-        $action = 'index';
 
-        $controller = Str::studly($explode[0]);
-        if ($controller === '') {
-            return false;
-        }
-        if (!empty($explode[1])) {
-            $action = Str::camel($explode[1]);
-        }
+        $explode = explode('/', $path);
+
+        $controller = empty($explode[0]) ? 'Index' : Str::studly($explode[0]);
+        $action = empty($explode[1]) ? 'index' : Str::camel($explode[1]);
         $controller_class = 'App\\Http\\Controllers\\' . $module . '\\' . $controller . $suffix;
         if ($controller_action = static::getControllerAction($controller_class, $action)) {
             return $controller_action;
         }
 
         $module = Str::studly($explode[0]);
-        $controller = 'Index';
-        $action = 'index';
-        if (!empty($explode[1])) {
-            $controller = Str::studly($explode[1]);
-            if (!empty($explode[2])) {
-                $action = Str::camel($explode[2]);
-            }
-        }
+        $controller = empty($explode[1]) ? 'Index' : Str::studly($explode[1]);
+        $action = empty($explode[2]) ? 'index' : Str::camel($explode[2]);
         $controller_class = 'App\\Http\\Controllers\\' . $module . '\\' . $controller . $suffix;
         if ($controller_action = static::getControllerAction($controller_class, $action)) {
             return $controller_action;
         }
+
         return false;
     }
 
