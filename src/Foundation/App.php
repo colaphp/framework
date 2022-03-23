@@ -399,18 +399,18 @@ class App
             $path = substr($path, 1);
         }
 
-        $explode = explode('/', $path);
+        $paths = array_pad(explode('/', $path), 3, null);
 
-        $controller = empty($explode[0]) ? 'Index' : Str::studly($explode[0]);
-        $action = empty($explode[1]) ? 'index' : Str::camel($explode[1]);
+        $controller = empty($paths[0]) ? 'Index' : Str::studly($paths[0]);
+        $action = empty($paths[1]) ? 'index' : Str::camel($paths[1]);
         $controller_class = 'App\\Http\\Controllers\\' . $module . '\\' . $controller . $suffix;
         if ($controller_action = static::getControllerAction($controller_class, $action)) {
             return $controller_action;
         }
 
-        $module = Str::studly($explode[0]);
-        $controller = empty($explode[1]) ? 'Index' : Str::studly($explode[1]);
-        $action = empty($explode[2]) ? 'index' : Str::camel($explode[2]);
+        $module = Str::studly($paths[0]);
+        $controller = empty($paths[1]) ? 'Index' : Str::studly($paths[1]);
+        $action = empty($paths[2]) ? 'index' : Str::camel($paths[2]);
         $controller_class = 'App\\Http\\Controllers\\' . $module . '\\' . $controller . $suffix;
         if ($controller_action = static::getControllerAction($controller_class, $action)) {
             return $controller_action;
