@@ -9,7 +9,7 @@ use Swift\Routing\Route;
 use Swift\Translation\Translation;
 use Workerman\Worker;
 
-define('FRAMEWORK_VERSION', '1.0.7');
+define('FRAMEWORK_VERSION', '1.0.14.220323');
 define('BASE_PATH', realpath(dirname(__DIR__, 5)));
 
 /**

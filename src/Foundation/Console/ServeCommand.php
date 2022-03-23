@@ -64,6 +64,27 @@ class ServeCommand extends Command
             date_default_timezone_set($timezone);
         }
 
+        $runtime_logs_path = runtime_path('logs');
+        if (!file_exists($runtime_logs_path) || !is_dir($runtime_logs_path)) {
+            if (!mkdir($runtime_logs_path, 0777, true)) {
+                throw new \RuntimeException("Failed to create runtime logs directory. Please check the permission.");
+            }
+        }
+
+        $runtime_sessions_path = runtime_path('sessions');
+        if (!file_exists($runtime_sessions_path) || !is_dir($runtime_sessions_path)) {
+            if (!mkdir($runtime_sessions_path, 0777, true)) {
+                throw new \RuntimeException("Failed to create runtime sessions directory. Please check the permission.");
+            }
+        }
+
+        $runtime_views_path = runtime_path('views');
+        if (!file_exists($runtime_views_path) || !is_dir($runtime_views_path)) {
+            if (!mkdir($runtime_views_path, 0777, true)) {
+                throw new \RuntimeException("Failed to create runtime views directory. Please check the permission.");
+            }
+        }
+
         Worker::$onMasterReload = function () {
             if (function_exists('opcache_get_status')) {
                 if ($status = opcache_get_status()) {
