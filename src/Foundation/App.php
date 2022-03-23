@@ -129,6 +129,10 @@ class App
                 return null;
             }
 
+            if (static::unsafeUri($path)) {
+                return null;
+            }
+
             if (static::findFile($connection, $path, $key, $request)) {
                 return null;
             }
@@ -155,6 +159,21 @@ class App
             static::send($connection, static::exceptionResponse($e, $request), $request);
         }
         return null;
+    }
+
+    /**
+     * @param $path
+     * @return bool
+     */
+    protected static function unsafeUri($path)
+    {
+        if (strpos($path, '/../') !== false || strpos($path,"\\") !== false || strpos($path, "\0") !== false) {
+            $callback = static::getFallback();
+            $request->app = $request->controller = $request->action = '';
+            static::send($connection, $callback($request), $request);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -321,16 +340,12 @@ class App
     protected static function findFile($connection, $path, $key, $request)
     {
         $public_dir = static::$_publicPath;
-        $file = realpath("$public_dir/$path");
-        if (false === $file || false === is_file($file)) {
+        $file = "$public_dir/$path";
+
+        if (!is_file($file)) {
             return false;
         }
 
-        // Security check
-        if (strpos($file, $public_dir) !== 0) {
-            static::send($connection, new Response(400), $request);
-            return true;
-        }
         if (pathinfo($file, PATHINFO_EXTENSION) === 'php') {
             if (!static::$_supportPHPFiles) {
                 return false;
