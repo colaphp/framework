@@ -44,8 +44,10 @@ $container = Container::instance();
 Route::container($container);
 Middleware::container($container);
 
-Middleware::load(['' => \App\Http\Kernel::$middleware]);
-Middleware::load(\App\Http\Kernel::$middlewareGroups);
+if (class_exists('App\Http\Kernel')) {
+    Middleware::load(['' => \App\Http\Kernel::$middleware]);
+    Middleware::load(\App\Http\Kernel::$middlewareGroups);
+}
 Middleware::load(['__static__' => config('static.middleware', [])]);
 
 foreach (config('app.providers', []) as $class_name) {
