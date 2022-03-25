@@ -26,7 +26,7 @@ if ($worker) {
     }, time());
 }
 
-if (class_exists('Dotenv\Dotenv') && file_exists(base_path().'/.env')) {
+if (class_exists('Dotenv\Dotenv') && file_exists(base_path() . '/.env')) {
     if (method_exists('Dotenv\Dotenv', 'createUnsafeImmutable')) {
         Dotenv::createUnsafeImmutable(base_path())->load();
     } else {
@@ -44,7 +44,8 @@ $container = Container::instance();
 Route::container($container);
 Middleware::container($container);
 
-Middleware::load(config('middleware', []));
+Middleware::load(['' => \App\Http\Kernel::$middleware]);
+Middleware::load(\App\Http\Kernel::$middlewareGroups);
 Middleware::load(['__static__' => config('static.middleware', [])]);
 
 foreach (config('app.providers', []) as $class_name) {
