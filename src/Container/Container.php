@@ -24,7 +24,10 @@ class Container
     public static function instance()
     {
         if (!static::$_instance) {
-            static::$_instance = new PsrContainer();
+            $builder = new \DI\ContainerBuilder();
+            $builder->useAutowiring(true);
+            $builder->useAnnotations(true);
+            static::$_instance = $builder->build();
         }
         return static::$_instance;
     }
