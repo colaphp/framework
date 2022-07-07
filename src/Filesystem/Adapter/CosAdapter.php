@@ -2,9 +2,9 @@
 
 namespace Cola\Filesystem\Adapter;
 
+use Cola\Filesystem\Exception\StorageException;
 use Qcloud\Cos\Client;
 use Qcloud\Cos\Exception\CosException;
-use Cola\Filesystem\Exception\StorageException;
 use Throwable;
 
 /**

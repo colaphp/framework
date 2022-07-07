@@ -2,8 +2,8 @@
 
 namespace Cola\Translation;
 
-use Symfony\Component\Translation\Translator;
 use Cola\Foundation\Exception\NotFoundException;
+use Symfony\Component\Translation\Translator;
 
 /**
  * Class TranslationProvider
@@ -44,8 +44,7 @@ class Translation
                 ]
             ];
 
-            foreach ($classes as $class => $opts)
-            {
+            foreach ($classes as $class => $opts) {
                 $translator->addLoader($opts['format'], new $class);
                 foreach (glob($translations_path . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . '*' . $opts['extension']) as $file) {
                     $domain = basename($file, $opts['extension']);

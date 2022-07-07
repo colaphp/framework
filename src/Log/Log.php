@@ -38,14 +38,14 @@ class Log
             foreach ($configs as $channel => $config) {
                 $handlers = self::handlers($config);
                 $processors = self::processors($config);
-                static::$_instance[$channel] = new Logger($channel,$handlers,$processors);
+                static::$_instance[$channel] = new Logger($channel, $handlers, $processors);
             }
         }
 
         return static::$_instance[$name];
     }
 
-    protected  static function handlers(array $config): array
+    protected static function handlers(array $config): array
     {
         $handlerConfigs = $config['handlers'] ?? [[]];
         $handlers = [];
@@ -82,7 +82,7 @@ class Log
     protected static function processors(array $config): array
     {
         $result = [];
-        if (! isset($config['processors']) && isset($config['processor'])) {
+        if (!isset($config['processors']) && isset($config['processor'])) {
             $config['processors'] = [$config['processor']];
         }
 

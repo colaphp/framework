@@ -2,8 +2,6 @@
 
 namespace Cola\Routing;
 
-use FastRoute\Dispatcher\GroupCountBased;
-use FastRoute\RouteCollector;
 use Cola\Routing\Route as Router;
 
 /**
@@ -44,7 +42,7 @@ class BaseRoute
      */
     public function __construct($methods, $path, $callback)
     {
-        $this->_methods = (array) $methods;
+        $this->_methods = (array)$methods;
         $this->_path = $path;
         $this->_callback = $callback;
     }

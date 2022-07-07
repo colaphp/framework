@@ -2,9 +2,9 @@
 
 namespace Cola\Foundation\Exception;
 
-use Psr\Log\LoggerInterface;
 use Cola\Http\Request;
 use Cola\Http\Response;
+use Psr\Log\LoggerInterface;
 use Throwable;
 
 /**

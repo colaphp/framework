@@ -2,13 +2,13 @@
 
 namespace Cola\Database;
 
+use Cola\Contracts\Bootstrap;
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
 use Jenssegers\Mongodb\Connection;
-use Cola\Contracts\Bootstrap;
-use Workerman\Worker;
 use Workerman\Timer;
+use Workerman\Worker;
 
 /**
  * Class DatabaseProvider

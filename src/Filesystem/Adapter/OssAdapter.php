@@ -2,9 +2,9 @@
 
 namespace Cola\Filesystem\Adapter;
 
+use Cola\Filesystem\Exception\StorageException;
 use OSS\Core\OssException;
 use OSS\OssClient;
-use Cola\Filesystem\Exception\StorageException;
 use Throwable;
 
 /**

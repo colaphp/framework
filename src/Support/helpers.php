@@ -268,7 +268,7 @@ function remove_dir($dir)
     if (is_link($dir) || is_file($dir)) {
         return unlink($dir);
     }
-    $files = array_diff(scandir($dir), array('.','..'));
+    $files = array_diff(scandir($dir), array('.', '..'));
     foreach ($files as $file) {
         (is_dir("$dir/$file") && !is_link($dir)) ? remove_dir("$dir/$file") : unlink("$dir/$file");
     }
@@ -327,7 +327,8 @@ function worker_bind($worker, $class)
  * @param $config
  * @return void
  */
-function worker_start($process_name, $config) {
+function worker_start($process_name, $config)
+{
     $worker = new Worker($config['listen'] ?? null, $config['context'] ?? []);
     $property_map = [
         'count',

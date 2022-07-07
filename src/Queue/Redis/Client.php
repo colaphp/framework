@@ -6,7 +6,7 @@ use Workerman\RedisQueue\Client as RedisClient;
 
 /**
  * Class Client
- * @method static void send($queue, $data, $delay=0)
+ * @method static void send($queue, $data, $delay = 0)
  * @package Cola\Queue\Redis
  */
 class Client
@@ -20,7 +20,8 @@ class Client
      * @param string $name
      * @return RedisClient
      */
-    public static function connection($name = 'default') {
+    public static function connection($name = 'default')
+    {
         if (!isset(static::$_connections[$name])) {
             $config = config('queue.redis', []);
             if (!isset($config[$name])) {

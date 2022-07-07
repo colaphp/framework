@@ -2,15 +2,12 @@
 
 namespace Cola\Foundation\Console;
 
-use Dotenv\Dotenv;
-use ErrorException;
 use Cola\Config\Config;
 use Cola\Container\Container;
 use Cola\Foundation\App;
-use Cola\Http\Middleware\Middleware;
 use Cola\Http\Request;
 use Cola\Log\Log;
-use Cola\Routing\Route;
+use Dotenv\Dotenv;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

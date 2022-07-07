@@ -3,14 +3,6 @@
 namespace Cola\Foundation;
 
 use Closure;
-use Exception;
-use FastRoute\Dispatcher;
-use Monolog\Logger;
-use Psr\Container\ContainerInterface;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use ReflectionClass;
-use SplFileInfo;
 use Cola\Config\Config;
 use Cola\Foundation\Exception\ExceptionHandler;
 use Cola\Foundation\Exception\ExceptionHandlerInterface;
@@ -20,9 +12,15 @@ use Cola\Http\Response;
 use Cola\Routing\BaseRoute;
 use Cola\Routing\Route;
 use Cola\Support\Str;
+use Exception;
+use FastRoute\Dispatcher;
+use Monolog\Logger;
+use Psr\Container\ContainerInterface;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use ReflectionClass;
 use Throwable;
 use Workerman\Connection\TcpConnection;
-use Workerman\Timer;
 use Workerman\Worker;
 
 /**
@@ -129,7 +127,7 @@ class App
                 return null;
             }
 
-            if (static::unsafeUri($path)) {
+            if (static::unsafeUri($connection, $path, $request)) {
                 return null;
             }
 
@@ -162,12 +160,14 @@ class App
     }
 
     /**
+     * @param $connection
      * @param $path
+     * @param $request
      * @return bool
      */
-    protected static function unsafeUri($path)
+    protected static function unsafeUri($connection, $path, $request)
     {
-        if (strpos($path, '/../') !== false || strpos($path, '\\') !== false || strpos($path, '\0') !== false) {
+        if (str_contains($path, '/../') || str_contains($path, "\\") || str_contains($path, "\0")) {
             $callback = static::getFallback();
             $request->app = $request->controller = $request->action = '';
             static::send($connection, $callback($request), $request);
@@ -383,6 +383,7 @@ class App
     protected static function send(TcpConnection $connection, $response, Request $request)
     {
         $keep_alive = $request->header('connection');
+        static::$_request = static::$_connection = null;
         if (($keep_alive === null && $request->protocolVersion() === '1.1')
             || $keep_alive === 'keep-alive' || $keep_alive === 'Keep-Alive'
         ) {

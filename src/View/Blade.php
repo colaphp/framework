@@ -38,7 +38,7 @@ class Blade implements FactoryContract
     {
         $this->container = $container ?: new Container;
 
-        $this->setupContainer((array) $viewPaths, $cachePath);
+        $this->setupContainer((array)$viewPaths, $cachePath);
         (new Provider($this->container))->register();
 
         $this->factory = $this->container->get('view');
@@ -64,7 +64,7 @@ class Blade implements FactoryContract
     {
         $this->compiler->directive($name, $handler);
     }
-    
+
     public function if($name, callable $callback)
     {
         $this->compiler->if($name, $callback);
@@ -130,7 +130,7 @@ class Blade implements FactoryContract
                 'view.compiled' => $cachePath,
             ];
         }, true);
-        
+
         Facade::setFacadeApplication($this->container);
     }
 }

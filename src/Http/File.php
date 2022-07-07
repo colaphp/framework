@@ -2,8 +2,8 @@
 
 namespace Cola\Http;
 
-use SplFileInfo;
 use Cola\Foundation\Exception\FileException;
+use SplFileInfo;
 
 /**
  * Class File

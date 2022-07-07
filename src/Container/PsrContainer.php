@@ -2,8 +2,8 @@
 
 namespace Cola\Container;
 
-use Psr\Container\ContainerInterface;
 use Cola\Exception\NotFoundException;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class PsrContainer

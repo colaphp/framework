@@ -2,9 +2,9 @@
 
 namespace Cola\Http\Middleware;
 
+use Cola\Foundation\App;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
-use Cola\Foundation\App;
 
 /**
  * Class Middleware

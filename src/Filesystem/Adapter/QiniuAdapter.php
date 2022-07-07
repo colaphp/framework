@@ -2,9 +2,9 @@
 
 namespace Cola\Filesystem\Adapter;
 
+use Cola\Filesystem\Exception\StorageException;
 use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
-use Cola\Filesystem\Exception\StorageException;
 use Throwable;
 
 /**

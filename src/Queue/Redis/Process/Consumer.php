@@ -2,11 +2,11 @@
 
 namespace Cola\Queue\Redis\Process;
 
+use Cola\Container\Container;
+use Cola\Queue\Redis\Client;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
-use Cola\Container\Container;
-use Cola\Queue\Redis\Client;
 
 /**
  * Class Consumer

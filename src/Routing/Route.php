@@ -2,10 +2,10 @@
 
 namespace Cola\Routing;
 
+use Cola\Foundation\App;
 use FastRoute\Dispatcher\GroupCountBased;
 use FastRoute\RouteCollector;
 use Psr\Container\ContainerInterface;
-use Cola\Foundation\App;
 use function FastRoute\simpleDispatcher;
 
 /**
@@ -188,7 +188,7 @@ class Route
             $diffOptions = array_diff($options, ['index', 'create', 'store', 'update', 'show', 'edit', 'destroy', 'recovery']);
             if (!empty($diffOptions)) {
                 foreach ($diffOptions as $action) {
-                    static::any("/{$name}/{$action}[/{id}]", [$controller,$action])->name("{$name}.{$action}");
+                    static::any("/{$name}/{$action}[/{id}]", [$controller, $action])->name("{$name}.{$action}");
                 }
             }
             // 注册路由 由于顺序不同会导致路由无效 因此不适用循环注册

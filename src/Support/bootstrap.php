@@ -1,10 +1,10 @@
 <?php
 
-use Dotenv\Dotenv;
 use Cola\Config\Config;
 use Cola\Container\Container;
 use Cola\Http\Middleware\Middleware;
 use Cola\Routing\Route;
+use Dotenv\Dotenv;
 
 $worker = $worker ?? null;
 
