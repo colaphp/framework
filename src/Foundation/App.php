@@ -398,39 +398,33 @@ class App
      */
     protected static function parseControllerAction($path)
     {
-        $module = config('app.default_module', '');
-        $suffix = config('app.controller_suffix', '');
+        $suffix = 'Controller';
+        $path_explode = explode('/', trim($path, '/'));
+        $app = !empty($path_explode[0]) ? Str::studly($path_explode[0]) : 'Index';
+        $controller = isset($path_explode[1]) ? Str::studly($path_explode[1]) : 'Index';
+        $action = isset($path_explode[2]) ? Str::camel($path_explode[2]) : 'index';
 
-        if ($path === '/' || $path === '') {
-            $action = 'index';
-            $controller_class = 'App\\Http\\Controllers\\' . $module . '\\Index' . $suffix;
+        if (isset($path_explode[2])) {
+            $controller_class = 'App\\Http\\Controllers\\' . $app . '\\' . $controller . $suffix;
             if ($controller_action = static::getControllerAction($controller_class, $action)) {
                 return $controller_action;
             }
-            return false;
         }
 
-        if ($path && $path[0] === '/') {
-            $path = substr($path, 1);
-        }
+        $controller = $app;
+        $action = isset($path_explode[1]) ? Str::camel($path_explode[1]) : 'index';
 
-        $paths = array_pad(explode('/', $path), 3, null);
-
-        $controller = empty($paths[0]) ? 'Index' : Str::studly($paths[0]);
-        $action = empty($paths[1]) ? 'index' : Str::camel($paths[1]);
-        $controller_class = 'App\\Http\\Controllers\\' . $module . '\\' . $controller . $suffix;
+        $controller_class = 'App\\Http\\Controllers\\' . $controller . $suffix;
         if ($controller_action = static::getControllerAction($controller_class, $action)) {
             return $controller_action;
         }
 
-        $module = Str::studly($paths[0]);
-        $controller = empty($paths[1]) ? 'Index' : Str::studly($paths[1]);
-        $action = empty($paths[2]) ? 'index' : Str::camel($paths[2]);
-        $controller_class = 'App\\Http\\Controllers\\' . $module . '\\' . $controller . $suffix;
+        $controller = isset($path_explode[1]) ? Str::studly($path_explode[1]) : 'Index';
+        $action = isset($path_explode[2]) ? Str::camel($path_explode[2]) : 'index';
+        $controller_class = 'App\\Http\\Controllers\\' . $app . '\\' . $controller . $suffix;
         if ($controller_action = static::getControllerAction($controller_class, $action)) {
             return $controller_action;
         }
-
         return false;
     }
 
@@ -508,7 +502,7 @@ class App
             $controller_calss = substr($controller_calss, 1);
         }
         $tmp = explode('\\', $controller_calss, 5);
-        if (!isset($tmp[3])) {
+        if (!isset($tmp[3]) || str_contains($tmp[3], 'Controller')) {
             return '';
         }
         return $tmp[3];

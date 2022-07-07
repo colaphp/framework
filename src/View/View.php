@@ -36,9 +36,10 @@ class View implements ViewContract
         static $views = [];
 
         $app = is_null($app) ? request()->app : $app;
+        $app = empty($app) ? '__default' : $app;
 
         if (!isset($views[$app])) {
-            $subDir = $app === config('app.default_module') ? '' : DIRECTORY_SEPARATOR . Str::snake($app);
+            $subDir = $app === '__default' ? '' :DIRECTORY_SEPARATOR . Str::snake($app);
             $viewPath = resource_path('views' . $subDir);
             $cachePath = runtime_path('views' . $subDir);
             if (!is_dir($cachePath)) {
