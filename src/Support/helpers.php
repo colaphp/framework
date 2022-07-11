@@ -384,8 +384,11 @@ function cpu_count()
     if (DIRECTORY_SEPARATOR === '\\') {
         return 1;
     }
-    if (strtolower(PHP_OS) === 'darwin') {
+    $arch = strtolower(PHP_OS);
+    if ($arch === 'darwin') {
         $count = shell_exec('sysctl -n machdep.cpu.core_count');
+    } else if (str_contains($arch, 'cygwin')) {
+        $count = 1;
     } else {
         $count = shell_exec('nproc');
     }
