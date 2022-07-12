@@ -47,14 +47,6 @@ class ServeCommand extends Command
         $argv[1] = $input->getArgument('action');
         $argv[2] = $input->getOption('daemon') ? '-d' : '';
 
-        if (class_exists('Dotenv\Dotenv')) {
-            if (method_exists('Dotenv\Dotenv', 'createUnsafeImmutable')) {
-                Dotenv::createUnsafeImmutable(base_path())->load();
-            } else {
-                Dotenv::createMutable(base_path())->load();
-            }
-        }
-
         Config::load(config_path());
 
         if ($timezone = config('app.default_timezone')) {
