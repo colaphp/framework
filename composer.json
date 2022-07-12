@@ -18,6 +18,7 @@
     "filp/whoops": "^2.14",
     "firebase/php-jwt": "^6.2",
     "gregwar/captcha": "^1.1",
+    "illuminate/console": "^9.19",
     "illuminate/database": "^9.19",
     "illuminate/events": "^9.19",
     "illuminate/pagination": "^9.19",
