@@ -401,7 +401,7 @@ class App
     {
         $suffix = 'Controller';
         $path_explode = explode('/', trim($path, '/'));
-        $app = !empty($path_explode[0]) ? Str::studly($path_explode[0]) : 'Index';
+        $app = !empty($path_explode[0]) ? Str::studly($path_explode[0]) : config('app.default_module', 'Index');
         $controller = isset($path_explode[1]) ? Str::studly($path_explode[1]) : 'Index';
         $action = isset($path_explode[2]) ? Str::camel($path_explode[2]) : 'index';
 
