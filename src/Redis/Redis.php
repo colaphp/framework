@@ -1,13 +1,13 @@
 <?php
 
-namespace Swift\Redis;
+namespace Cola\Redis;
 
 use Illuminate\Redis\Connections\Connection;
 use Illuminate\Redis\RedisManager;
 
 /**
  * Class Redis
- * @package Swift\Redis
+ * @package Cola\Redis
  *
  * Strings methods
  * @method static int append($key, $value)

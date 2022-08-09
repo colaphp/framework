@@ -1,10 +1,10 @@
 <?php
 
-namespace Swift\Contracts\Support;
+namespace Cola\Contracts\Support;
 
 /**
  * Interface Arrayable
- * @package Swift\Contracts\Support
+ * @package Cola\Contracts\Support
  */
 interface Arrayable
 {

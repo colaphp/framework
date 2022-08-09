@@ -1,10 +1,10 @@
 <?php
 
-namespace Swift\Filesystem\Exception;
+namespace Cola\Filesystem\Exception;
 
 /**
  * Class StorageException
- * @package Swift\Filesystem\Exception
+ * @package Cola\Filesystem\Exception
  */
 class StorageException extends \RuntimeException
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace Swift\Foundation\Exception;
+namespace Cola\Foundation\Exception;
 
-use Swift\Http\Request;
-use Swift\Http\Response;
+use Cola\Http\Request;
+use Cola\Http\Response;
 use Throwable;
 
 /**
  * Interface ExceptionHandlerInterface
- * @package Swift\Foundation\Exception
+ * @package Cola\Foundation\Exception
  */
 interface ExceptionHandlerInterface
 {

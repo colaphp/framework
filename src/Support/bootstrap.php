@@ -1,10 +1,10 @@
 <?php
 
+use Cola\Config\Config;
+use Cola\Container\Container;
+use Cola\Http\Middleware\Middleware;
+use Cola\Routing\Route;
 use Dotenv\Dotenv;
-use Swift\Config\Config;
-use Swift\Container\Container;
-use Swift\Http\Middleware\Middleware;
-use Swift\Routing\Route;
 
 $worker = $worker ?? null;
 
@@ -51,7 +51,7 @@ if (class_exists('App\Http\Kernel')) {
 Middleware::load(['__static__' => config('static.middleware', [])]);
 
 foreach (config('app.providers', []) as $class_name) {
-    /** @var \Swift\Contracts\Bootstrap $class_name */
+    /** @var \Cola\Contracts\Bootstrap $class_name */
     $class_name::start($worker);
 }
 

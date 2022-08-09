@@ -1,6 +1,6 @@
 <?php
 
-namespace Swift\Support;
+namespace Cola\Support;
 
 use Carbon\Carbon;
 use DateInterval;

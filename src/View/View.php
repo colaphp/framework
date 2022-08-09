@@ -1,12 +1,13 @@
 <?php
 
-namespace Swift\View;
+namespace Cola\View;
 
-use Swift\Contracts\View as ViewContract;
+use Cola\Contracts\View as ViewContract;
+use Cola\Support\Str;
 
 /**
  * Class View
- * @package Swift\View
+ * @package Cola\View
  */
 class View implements ViewContract
 {
@@ -35,12 +36,12 @@ class View implements ViewContract
         static $views = [];
 
         $app = is_null($app) ? request()->app : $app;
-
-        $default = $app === config('app.default_module');
+        $app = empty($app) ? '__default' : $app;
 
         if (!isset($views[$app])) {
-            $viewPath = resource_path('views' . ($default ? '' : DIRECTORY_SEPARATOR . $app));
-            $cachePath = runtime_path('views' . ($default ? '' : DIRECTORY_SEPARATOR . $app));
+            $subDir = $app === '__default' ? '' : DIRECTORY_SEPARATOR . Str::snake($app);
+            $viewPath = resource_path('views' . $subDir);
+            $cachePath = runtime_path('views' . $subDir);
             if (!is_dir($cachePath)) {
                 mkdir($cachePath, 0755, true);
             }

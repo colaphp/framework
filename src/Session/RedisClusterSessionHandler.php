@@ -1,13 +1,13 @@
 <?php
 
-namespace Swift\Session;
+namespace Cola\Session;
 
 use Redis;
 use RedisCluster;
 
 /**
  * Class RedisClusterSessionHandler
- * @package Swift\Session
+ * @package Cola\Session
  */
 class RedisClusterSessionHandler extends RedisSessionHandler
 {

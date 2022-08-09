@@ -1,12 +1,12 @@
 <?php
 
-namespace Swift\Auth;
+namespace Cola\Auth;
 
 use Firebase\JWT\Key;
 
 /**
  * Class JWT
- * @package Swift\Auth
+ * @package Cola\Auth
  */
 class JWT
 {

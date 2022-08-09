@@ -1,15 +1,15 @@
 <?php
 
-namespace Swift\Foundation\Exception;
+namespace Cola\Foundation\Exception;
 
+use Cola\Http\Request;
+use Cola\Http\Response;
 use Psr\Log\LoggerInterface;
-use Swift\Http\Request;
-use Swift\Http\Response;
 use Throwable;
 
 /**
  * Class ExceptionHandler
- * @package Swift\Foundation\Exception
+ * @package Cola\Foundation\Exception
  */
 class ExceptionHandler implements ExceptionHandlerInterface
 {

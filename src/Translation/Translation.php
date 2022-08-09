@@ -1,13 +1,13 @@
 <?php
 
-namespace Swift\Translation;
+namespace Cola\Translation;
 
+use Cola\Foundation\Exception\NotFoundException;
 use Symfony\Component\Translation\Translator;
-use Swift\Foundation\Exception\NotFoundException;
 
 /**
  * Class TranslationProvider
- * @package Swift\Translation
+ * @package Cola\Translation
  * @method static string trans(?string $id, array $parameters = [], string $domain = null, string $locale = null)
  * @method static void setLocale(string $locale)
  * @method static string getLocale()
@@ -44,8 +44,7 @@ class Translation
                 ]
             ];
 
-            foreach ($classes as $class => $opts)
-            {
+            foreach ($classes as $class => $opts) {
                 $translator->addLoader($opts['format'], new $class);
                 foreach (glob($translations_path . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . '*' . $opts['extension']) as $file) {
                     $domain = basename($file, $opts['extension']);

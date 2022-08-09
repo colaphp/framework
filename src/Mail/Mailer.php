@@ -1,11 +1,12 @@
 <?php
 
-namespace Swift\Mail;
+namespace Cola\Mail;
 
+use Cola\Log\Log;
+use Cola\View\View;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Exception;
-use Swift\View\View;
 use Symfony\Component\Mailer\Exception\RuntimeException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mime\Address;
@@ -14,11 +15,10 @@ use Symfony\Component\Mime\Crypto\SMimeEncrypter;
 use Symfony\Component\Mime\Crypto\SMimeSigner;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Header\HeaderInterface;
-use Swift\Log\Log;
 
 /**
  * Class Mailer
- * @package Swift\Mail
+ * @package Cola\Mail
  */
 class Mailer
 {

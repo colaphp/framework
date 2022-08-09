@@ -1,10 +1,10 @@
 <?php
 
-namespace Swift\Auth;
+namespace Cola\Auth;
 
 /**
  * Interface TokenExtractorInterface
- * @package Swift\Auth
+ * @package Cola\Auth
  */
 interface TokenExtractorInterface
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Swift\Hashing;
+namespace Cola\Hashing;
 
 /**
  * Class Hash
- * @package Swift\Hashing
+ * @package Cola\Hashing
  */
 class Hash
 {

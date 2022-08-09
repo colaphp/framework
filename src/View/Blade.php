@@ -1,6 +1,6 @@
 <?php
 
-namespace Swift\View;
+namespace Cola\View;
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\Container as ContainerInterface;
@@ -15,7 +15,7 @@ use Illuminate\View\Factory;
 
 /**
  * Class Blade
- * @package Swift\View
+ * @package Cola\View
  */
 class Blade implements FactoryContract
 {
@@ -38,7 +38,7 @@ class Blade implements FactoryContract
     {
         $this->container = $container ?: new Container;
 
-        $this->setupContainer((array) $viewPaths, $cachePath);
+        $this->setupContainer((array)$viewPaths, $cachePath);
         (new Provider($this->container))->register();
 
         $this->factory = $this->container->get('view');
@@ -64,7 +64,7 @@ class Blade implements FactoryContract
     {
         $this->compiler->directive($name, $handler);
     }
-    
+
     public function if($name, callable $callback)
     {
         $this->compiler->if($name, $callback);
@@ -130,7 +130,7 @@ class Blade implements FactoryContract
                 'view.compiled' => $cachePath,
             ];
         }, true);
-        
+
         Facade::setFacadeApplication($this->container);
     }
 }

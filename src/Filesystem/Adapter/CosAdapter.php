@@ -1,15 +1,15 @@
 <?php
 
-namespace Swift\Filesystem\Adapter;
+namespace Cola\Filesystem\Adapter;
 
+use Cola\Filesystem\Exception\StorageException;
 use Qcloud\Cos\Client;
 use Qcloud\Cos\Exception\CosException;
-use Swift\Filesystem\Exception\StorageException;
 use Throwable;
 
 /**
  * Class CosAdapter
- * @package Swift\Filesystem\Adapter
+ * @package Cola\Filesystem\Adapter
  */
 class CosAdapter extends AdapterAbstract
 {

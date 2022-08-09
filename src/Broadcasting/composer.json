@@ -1,11 +1,11 @@
 {
-    "name": "swift/broadcasting",
-    "description": "The Swift Broadcasting package.",
+    "name": "colaphp/broadcasting",
+    "description": "The Cola Broadcasting package.",
     "license": "MIT",
-    "homepage": "https://www.daophp.com",
+    "homepage": "https://www.colaphp.net",
     "support": {
-        "issues": "https://github.com/daophp/framework/issues",
-        "source": "https://github.com/daophp/framework"
+        "issues": "https://github.com/colaphp/framework/issues",
+        "source": "https://github.com/colaphp/framework"
     },
     "require": {
         "php": "^8.0.2",
@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Swift\\Broadcasting\\": ""
+            "Cola\\Broadcasting\\": ""
         }
     },
     "config": {

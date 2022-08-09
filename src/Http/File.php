@@ -1,13 +1,13 @@
 <?php
 
-namespace Swift\Http;
+namespace Cola\Http;
 
+use Cola\Foundation\Exception\FileException;
 use SplFileInfo;
-use Swift\Foundation\Exception\FileException;
 
 /**
  * Class File
- * @package Swift\Filesystem
+ * @package Cola\Filesystem
  */
 class File extends SplFileInfo
 {

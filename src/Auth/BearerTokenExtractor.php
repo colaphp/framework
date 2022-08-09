@@ -1,13 +1,13 @@
 <?php
 
-namespace Swift\Auth;
+namespace Cola\Auth;
 
-use Swift\Auth\Exception\ExtractTokenException;
-use Swift\Http\Request;
+use Cola\Auth\Exception\ExtractTokenException;
+use Cola\Http\Request;
 
 /**
  * Class BearerTokenExtractor
- * @package Swift\Auth
+ * @package Cola\Auth
  */
 class BearerTokenExtractor implements TokenExtractorInterface
 {

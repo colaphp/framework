@@ -1,14 +1,14 @@
 <?php
 
-namespace Swift\Http\Middleware;
+namespace Cola\Http\Middleware;
 
+use Cola\Foundation\App;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
-use Swift\Foundation\App;
 
 /**
  * Class Middleware
- * @package Swift\Http\Middleware
+ * @package Cola\Http\Middleware
  */
 class Middleware
 {

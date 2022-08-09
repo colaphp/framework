@@ -1,16 +1,13 @@
 <?php
 
-namespace Swift\Foundation\Console;
+namespace Cola\Foundation\Console;
 
+use Cola\Config\Config;
+use Cola\Container\Container;
+use Cola\Foundation\App;
+use Cola\Http\Request;
+use Cola\Log\Log;
 use Dotenv\Dotenv;
-use ErrorException;
-use Swift\Config\Config;
-use Swift\Container\Container;
-use Swift\Foundation\App;
-use Swift\Http\Middleware\Middleware;
-use Swift\Http\Request;
-use Swift\Log\Log;
-use Swift\Routing\Route;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,7 +18,7 @@ use Workerman\Worker;
 
 /**
  * Class ServeCommand
- * @package Swift\Foundation\Console
+ * @package Cola\Foundation\Console
  */
 class ServeCommand extends Command
 {
@@ -49,14 +46,6 @@ class ServeCommand extends Command
         global $argv;
         $argv[1] = $input->getArgument('action');
         $argv[2] = $input->getOption('daemon') ? '-d' : '';
-
-        if (class_exists('Dotenv\Dotenv')) {
-            if (method_exists('Dotenv\Dotenv', 'createUnsafeImmutable')) {
-                Dotenv::createUnsafeImmutable(base_path())->load();
-            } else {
-                Dotenv::createMutable(base_path())->load();
-            }
-        }
 
         Config::load(config_path());
 

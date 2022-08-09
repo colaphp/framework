@@ -1,12 +1,12 @@
 <?php
 
-namespace Swift\Session;
+namespace Cola\Session;
 
 use Workerman\Protocols\Http\Session\FileSessionHandler as SessionHandler;
 
 /**
  * Class FileSessionHandler
- * @package Swift\Session
+ * @package Cola\Session
  */
 class FileSessionHandler extends SessionHandler
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Swift\Auth;
+namespace Cola\Auth;
 
 /**
  * Class Authorization
- * @package Swift\Auth
+ * @package Cola\Auth
  */
 class Authorization
 {

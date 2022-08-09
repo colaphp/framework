@@ -1,18 +1,18 @@
 {
-    "name": "swift/database",
-    "description": "The Swift Database package.",
+    "name": "colaphp/database",
+    "description": "The Cola Database package.",
     "license": "MIT",
-    "homepage": "https://www.daophp.com",
+    "homepage": "https://www.colaphp.net",
     "support": {
-        "issues": "https://github.com/daophp/framework/issues",
-        "source": "https://github.com/daophp/framework"
+        "issues": "https://github.com/colaphp/framework/issues",
+        "source": "https://github.com/colaphp/framework"
     },
     "require": {
         "php": "^8.0.2"
     },
     "autoload": {
         "psr-4": {
-            "Swift\\Database\\": ""
+            "Cola\\Database\\": ""
         }
     },
     "config": {

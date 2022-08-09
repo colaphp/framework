@@ -1,13 +1,13 @@
 <?php
 
-namespace Swift\Filesystem;
+namespace Cola\Filesystem;
 
-use Swift\Container\Container;
-use Swift\Filesystem\Exception\StorageException;
+use Cola\Container\Container;
+use Cola\Filesystem\Exception\StorageException;
 
 /**
  * Class Storage
- * @package Swift\Filesystem
+ * @package Cola\Filesystem
  */
 class Storage
 {

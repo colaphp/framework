@@ -1,13 +1,13 @@
 <?php
 
-namespace Swift\Http;
+namespace Cola\Http;
 
-use Swift\Foundation\App;
+use Cola\Foundation\App;
 use Workerman\Protocols\Http\Response as WorkerResponse;
 
 /**
  * Class Response
- * @package Swift\Http
+ * @package Cola\Http
  */
 class Response extends WorkerResponse
 {

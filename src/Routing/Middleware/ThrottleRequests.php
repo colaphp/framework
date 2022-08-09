@@ -1,14 +1,14 @@
 <?php
 
-namespace Swift\Routing\Middleware;
+namespace Cola\Routing\Middleware;
 
-use Swift\Contracts\Middleware;
-use Swift\Http\Request;
-use Swift\Http\Response;
+use Cola\Contracts\Middleware;
+use Cola\Http\Request;
+use Cola\Http\Response;
 
 /**
  * Class ThrottleRequests
- * @package Swift\Routing\Middleware
+ * @package Cola\Routing\Middleware
  */
 class ThrottleRequests implements Middleware
 {

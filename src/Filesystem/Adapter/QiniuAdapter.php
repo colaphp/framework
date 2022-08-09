@@ -1,15 +1,15 @@
 <?php
 
-namespace Swift\Filesystem\Adapter;
+namespace Cola\Filesystem\Adapter;
 
+use Cola\Filesystem\Exception\StorageException;
 use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
-use Swift\Filesystem\Exception\StorageException;
 use Throwable;
 
 /**
  * Class QiniuAdapter
- * @package Swift\Filesystem\Adapter
+ * @package Cola\Filesystem\Adapter
  */
 class QiniuAdapter extends AdapterAbstract
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Swift\Http;
+namespace Cola\Http;
 
-use Swift\Filesystem\File;
+use Cola\Filesystem\File;
 
 /**
  * Class UploadFile
- * @package Swift\Http
+ * @package Cola\Http
  */
 class UploadFile extends File
 {

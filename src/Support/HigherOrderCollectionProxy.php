@@ -1,16 +1,16 @@
 <?php
 
-namespace Swift\Support;
+namespace Cola\Support;
 
 /**
- * @mixin \Swift\Support\Enumerable
+ * @mixin \Cola\Support\Enumerable
  */
 class HigherOrderCollectionProxy
 {
     /**
      * The collection being operated on.
      *
-     * @var \Swift\Support\Enumerable
+     * @var \Cola\Support\Enumerable
      */
     protected $collection;
 
@@ -24,8 +24,8 @@ class HigherOrderCollectionProxy
     /**
      * Create a new proxy instance.
      *
-     * @param  \Swift\Support\Enumerable  $collection
-     * @param  string  $method
+     * @param \Cola\Support\Enumerable $collection
+     * @param string $method
      * @return void
      */
     public function __construct(Enumerable $collection, $method)
@@ -37,7 +37,7 @@ class HigherOrderCollectionProxy
     /**
      * Proxy accessing an attribute onto the collection items.
      *
-     * @param  string  $key
+     * @param string $key
      * @return mixed
      */
     public function __get($key)
@@ -50,8 +50,8 @@ class HigherOrderCollectionProxy
     /**
      * Proxy a method call onto the collection items.
      *
-     * @param  string  $method
-     * @param  array  $parameters
+     * @param string $method
+     * @param array $parameters
      * @return mixed
      */
     public function __call($method, $parameters)

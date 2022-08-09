@@ -1,15 +1,15 @@
 <?php
 
-namespace Swift\Mail;
+namespace Cola\Mail;
 
-use Swift\Mail\Exception\InvalidArgumentException;
+use Cola\Mail\Exception\InvalidArgumentException;
 use Symfony\Component\Mailer\Mailer as SymfonyMailer;
 use Symfony\Component\Mailer\Transport\Dsn;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 
 /**
  * Class Transport
- * @package Swift\Mail
+ * @package Cola\Mail
  */
 class Transport
 {

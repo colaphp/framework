@@ -1,15 +1,15 @@
 <?php
 
-namespace Swift\Session;
+namespace Cola\Session;
 
-use Swift\Contracts\Bootstrap;
+use Cola\Contracts\Bootstrap;
 use Workerman\Protocols\Http;
 use Workerman\Protocols\Http\Session as SessionBase;
 use Workerman\Worker;
 
 /**
  * Class SessionProvider
- * @package Swift\Session
+ * @package Cola\Session
  */
 class SessionProvider implements Bootstrap
 {

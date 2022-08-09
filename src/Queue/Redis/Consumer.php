@@ -1,6 +1,6 @@
 <?php
 
-namespace Swift\Queue\Redis;
+namespace Cola\Queue\Redis;
 
 interface Consumer
 {

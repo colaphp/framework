@@ -1,10 +1,10 @@
 <?php
 
-namespace Swift\Contracts;
+namespace Cola\Contracts;
 
 /**
  * Interface View
- * @package Swift\Contracts
+ * @package Cola\Contracts
  */
 interface View
 {

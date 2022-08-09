@@ -1,10 +1,10 @@
 <?php
 
-namespace Swift\Filesystem\Adapter;
+namespace Cola\Filesystem\Adapter;
 
 /**
  * Class AdapterInterface
- * @package Swift\Filesystem\Adapter
+ * @package Cola\Filesystem\Adapter
  */
 interface AdapterInterface
 {

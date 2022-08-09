@@ -1,10 +1,10 @@
 <?php
 
-namespace Swift\Filesystem\Adapter;
+namespace Cola\Filesystem\Adapter;
 
 /**
  * Class LocalAdapter
- * @package Swift\Filesystem\Adapter
+ * @package Cola\Filesystem\Adapter
  */
 class LocalAdapter extends AdapterAbstract
 {

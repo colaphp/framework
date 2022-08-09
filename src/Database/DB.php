@@ -1,6 +1,6 @@
 <?php
 
-namespace Swift\Database;
+namespace Cola\Database;
 
 use Illuminate\Database\Capsule\Manager;
 
@@ -15,7 +15,7 @@ use Illuminate\Database\Capsule\Manager;
  * @method static void beginTransaction()
  * @method static void rollBack($toLevel = null)
  * @method static void commit()
- * @package Swift\Database
+ * @package Cola\Database
  */
 class DB extends Manager
 {

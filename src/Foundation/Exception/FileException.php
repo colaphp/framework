@@ -1,12 +1,12 @@
 <?php
 
-namespace Swift\Foundation\Exception;
+namespace Cola\Foundation\Exception;
 
 use RuntimeException;
 
 /**
  * Class FileException
- * @package Swift\Foundation\Exception
+ * @package Cola\Foundation\Exception
  */
 class FileException extends RuntimeException
 {

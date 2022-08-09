@@ -1,6 +1,6 @@
 <?php
 
-namespace Swift\Container;
+namespace Cola\Container;
 
 use Psr\Container\ContainerInterface;
 

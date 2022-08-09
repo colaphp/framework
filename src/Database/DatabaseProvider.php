@@ -1,18 +1,18 @@
 <?php
 
-namespace Swift\Database;
+namespace Cola\Database;
 
+use Cola\Contracts\Bootstrap;
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
 use Jenssegers\Mongodb\Connection;
-use Swift\Contracts\Bootstrap;
-use Workerman\Worker;
 use Workerman\Timer;
+use Workerman\Worker;
 
 /**
  * Class DatabaseProvider
- * @package Swift\Database
+ * @package Cola\Database
  */
 class DatabaseProvider implements Bootstrap
 {
@@ -63,7 +63,7 @@ class DatabaseProvider implements Bootstrap
             Timer::add(55, function () use ($connections) {
                 foreach ($connections as $key => $item) {
                     if ($item['driver'] == 'mysql') {
-                        Db::connection($key)->select('select 1');
+                        DB::connection($key)->select('select 1');
                     }
                 }
             });

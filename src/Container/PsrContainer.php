@@ -1,13 +1,13 @@
 <?php
 
-namespace Swift\Container;
+namespace Cola\Container;
 
+use Cola\Exception\NotFoundException;
 use Psr\Container\ContainerInterface;
-use Swift\Exception\NotFoundException;
 
 /**
  * Class PsrContainer
- * @package Swift\Container
+ * @package Cola\Container
  * @method static mixed get($name)
  * @method static mixed make($name, array $parameters)
  * @method static bool has($name)

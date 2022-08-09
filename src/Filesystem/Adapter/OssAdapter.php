@@ -1,15 +1,15 @@
 <?php
 
-namespace Swift\Filesystem\Adapter;
+namespace Cola\Filesystem\Adapter;
 
+use Cola\Filesystem\Exception\StorageException;
 use OSS\Core\OssException;
 use OSS\OssClient;
-use Swift\Filesystem\Exception\StorageException;
 use Throwable;
 
 /**
  * Class OssAdapter
- * @package Swift\Filesystem\Adapter
+ * @package Cola\Filesystem\Adapter
  */
 class OssAdapter extends AdapterAbstract
 {

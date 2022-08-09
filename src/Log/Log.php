@@ -1,6 +1,6 @@
 <?php
 
-namespace Swift\Log;
+namespace Cola\Log;
 
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Handler\FormattableHandlerInterface;
@@ -18,7 +18,7 @@ use Monolog\Logger;
  * @method static void critical($message, array $context = [])
  * @method static void alert($message, array $context = [])
  * @method static void emergency($message, array $context = [])
- * @package Swift\Log
+ * @package Cola\Log
  */
 class Log
 {
@@ -38,14 +38,14 @@ class Log
             foreach ($configs as $channel => $config) {
                 $handlers = self::handlers($config);
                 $processors = self::processors($config);
-                static::$_instance[$channel] = new Logger($channel,$handlers,$processors);
+                static::$_instance[$channel] = new Logger($channel, $handlers, $processors);
             }
         }
 
         return static::$_instance[$name];
     }
 
-    protected  static function handlers(array $config): array
+    protected static function handlers(array $config): array
     {
         $handlerConfigs = $config['handlers'] ?? [[]];
         $handlers = [];
@@ -82,7 +82,7 @@ class Log
     protected static function processors(array $config): array
     {
         $result = [];
-        if (! isset($config['processors']) && isset($config['processor'])) {
+        if (!isset($config['processors']) && isset($config['processor'])) {
             $config['processors'] = [$config['processor']];
         }
 

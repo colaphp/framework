@@ -1,13 +1,13 @@
 <?php
 
-namespace Swift\Contracts;
+namespace Cola\Contracts;
 
-use Swift\Http\Request;
-use Swift\Http\Response;
+use Cola\Http\Request;
+use Cola\Http\Response;
 
 /**
  * Interface Middleware
- * @package Swift\Contracts
+ * @package Cola\Contracts
  */
 interface Middleware
 {

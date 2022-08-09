@@ -1,18 +1,18 @@
 {
-    "name": "swift/pipeline",
-    "description": "The Swift Pipeline package.",
+    "name": "colaphp/pipeline",
+    "description": "The Cola Pipeline package.",
     "license": "MIT",
-    "homepage": "https://www.daophp.com",
+    "homepage": "https://www.colaphp.net",
     "support": {
-        "issues": "https://github.com/daophp/framework/issues",
-        "source": "https://github.com/daophp/framework"
+        "issues": "https://github.com/colaphp/framework/issues",
+        "source": "https://github.com/colaphp/framework"
     },
     "require": {
         "php": "^8.0.2"
     },
     "autoload": {
         "psr-4": {
-            "Swift\\Pipeline\\": ""
+            "Cola\\Pipeline\\": ""
         }
     },
     "config": {

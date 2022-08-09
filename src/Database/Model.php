@@ -1,12 +1,12 @@
 <?php
 
-namespace Swift\Database;
+namespace Cola\Database;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
 
 /**
  * Class Model
- * @package Swift\Database
+ * @package Cola\Database
  */
 class Model extends BaseModel
 {

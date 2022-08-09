@@ -1,14 +1,14 @@
 <?php
 
-namespace Swift\Http\Middleware;
+namespace Cola\Http\Middleware;
 
-use Swift\Contracts\Middleware;
-use Swift\Http\Request;
-use Swift\Http\Response;
+use Cola\Contracts\Middleware;
+use Cola\Http\Request;
+use Cola\Http\Response;
 
 /**
  * Class HandleCors
- * @package Swift\Http\Middleware
+ * @package Cola\Http\Middleware
  */
 class HandleCors implements Middleware
 {

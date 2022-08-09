@@ -1,6 +1,6 @@
 <?php
 
-namespace Swift\View;
+namespace Cola\View;
 
 use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\DynamicComponent;
@@ -8,7 +8,7 @@ use Illuminate\View\ViewServiceProvider;
 
 /**
  * Class Provider
- * @package Swift\View
+ * @package Cola\View
  */
 class Provider extends ViewServiceProvider
 {

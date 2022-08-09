@@ -1,12 +1,12 @@
 <?php
 
-namespace Swift\Contracts;
+namespace Cola\Contracts;
 
 use Workerman\Worker;
 
 /**
  * Interface Bootstrap
- * @package Swift\Contracts
+ * @package Cola\Contracts
  */
 interface Bootstrap
 {

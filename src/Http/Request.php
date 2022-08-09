@@ -1,14 +1,14 @@
 <?php
 
-namespace Swift\Http;
+namespace Cola\Http;
 
-use Swift\Foundation\App;
-use Swift\Support\Arr;
+use Cola\Foundation\App;
+use Cola\Support\Arr;
 use Workerman\Protocols\Http\Request as WorkerRequest;
 
 /**
  * Class Request
- * @package Swift\Http
+ * @package Cola\Http
  */
 class Request extends WorkerRequest
 {

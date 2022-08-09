@@ -1,14 +1,14 @@
 <?php
 
-namespace Swift\Filesystem\Adapter;
+namespace Cola\Filesystem\Adapter;
 
-use Swift\Filesystem\Exception\StorageException;
-use Swift\Filesystem\Traits\ErrorMsg;
-use Swift\Http\UploadFile;
+use Cola\Filesystem\Exception\StorageException;
+use Cola\Filesystem\Traits\ErrorMsg;
+use Cola\Http\UploadFile;
 
 /**
  * Class AdapterAbstract
- * @package Swift\Filesystem\Adapter
+ * @package Cola\Filesystem\Adapter
  */
 abstract class AdapterAbstract implements AdapterInterface
 {

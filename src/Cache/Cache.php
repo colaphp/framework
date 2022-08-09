@@ -1,14 +1,14 @@
 <?php
 
-namespace Swift\Cache;
+namespace Cola\Cache;
 
-use Swift\Redis\Redis;
+use Cola\Redis\Redis;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 
 /**
  * Class Cache
- * @package Swift\Cache
+ * @package Cola\Cache
  *
  * Strings methods
  * @method static mixed get($key, $default = null)

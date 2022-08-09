@@ -1,6 +1,6 @@
 <?php
 
-namespace Swift\Filesystem\Traits;
+namespace Cola\Filesystem\Traits;
 
 trait ErrorMsg
 {

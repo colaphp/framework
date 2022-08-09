@@ -1,10 +1,10 @@
 <?php
 
-namespace Swift\Pagination;
+namespace Cola\Pagination;
 
 /**
  * Class Paginator
- * @package Swift\Pagination
+ * @package Cola\Pagination
  */
 class Paginator
 {
@@ -37,7 +37,7 @@ class Paginator
 
     protected function updateNumPages()
     {
-        $this->numPages = ($this->itemsPerPage == 0 ? 0 : (int) ceil($this->totalItems/$this->itemsPerPage));
+        $this->numPages = ($this->itemsPerPage == 0 ? 0 : (int)ceil($this->totalItems / $this->itemsPerPage));
     }
 
     /**
@@ -213,7 +213,7 @@ class Paginator
         } else {
 
             // Determine the sliding range, centered around the current page.
-            $numAdjacents = (int) floor(($this->maxPagesToShow - 3) / 2);
+            $numAdjacents = (int)floor(($this->maxPagesToShow - 3) / 2);
 
             if ($this->currentPage + $numAdjacents > $this->numPages) {
                 $slidingStart = $this->numPages - $this->maxPagesToShow + 2;
@@ -285,7 +285,7 @@ class Paginator
 
         $html = '<ul class="pagination">';
         if ($this->getPrevUrl()) {
-            $html .= '<li><a href="' . htmlspecialchars($this->getPrevUrl()) . '">&laquo; '. $this->previousText .'</a></li>';
+            $html .= '<li><a href="' . htmlspecialchars($this->getPrevUrl()) . '">&laquo; ' . $this->previousText . '</a></li>';
         }
 
         foreach ($this->getPages() as $page) {
@@ -297,7 +297,7 @@ class Paginator
         }
 
         if ($this->getNextUrl()) {
-            $html .= '<li><a href="' . htmlspecialchars($this->getNextUrl()) . '">'. $this->nextText .' &raquo;</a></li>';
+            $html .= '<li><a href="' . htmlspecialchars($this->getNextUrl()) . '">' . $this->nextText . ' &raquo;</a></li>';
         }
         $html .= '</ul>';
 

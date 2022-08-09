@@ -1,6 +1,6 @@
 <?php
 
-namespace Swift\Config;
+namespace Cola\Config;
 
 use FilesystemIterator;
 use RecursiveDirectoryIterator;
@@ -8,7 +8,7 @@ use RecursiveIteratorIterator;
 
 /**
  * Class Config
- * @package Swift\Config
+ * @package Cola\Config
  */
 class Config
 {

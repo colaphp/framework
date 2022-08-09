@@ -1,15 +1,15 @@
 <?php
 
-use Swift\Config\Config;
-use Swift\Container\Container;
-use Swift\Foundation\App;
-use Swift\Http\Request;
-use Swift\Http\Response;
-use Swift\Routing\Route;
-use Swift\Translation\Translation;
+use Cola\Config\Config;
+use Cola\Container\Container;
+use Cola\Foundation\App;
+use Cola\Http\Request;
+use Cola\Http\Response;
+use Cola\Routing\Route;
+use Cola\Translation\Translation;
 use Workerman\Worker;
 
-define('FRAMEWORK_VERSION', '1.0.14.220323');
+define('FRAMEWORK_VERSION', '1.0.0.220630');
 define('BASE_PATH', realpath(dirname(__DIR__, 5)));
 
 /**
@@ -268,7 +268,7 @@ function remove_dir($dir)
     if (is_link($dir) || is_file($dir)) {
         return unlink($dir);
     }
-    $files = array_diff(scandir($dir), array('.','..'));
+    $files = array_diff(scandir($dir), array('.', '..'));
     foreach ($files as $file) {
         (is_dir("$dir/$file") && !is_link($dir)) ? remove_dir("$dir/$file") : unlink("$dir/$file");
     }
@@ -327,7 +327,8 @@ function worker_bind($worker, $class)
  * @param $config
  * @return void
  */
-function worker_start($process_name, $config) {
+function worker_start($process_name, $config)
+{
     $worker = new Worker($config['listen'] ?? null, $config['context'] ?? []);
     $property_map = [
         'count',
@@ -383,8 +384,11 @@ function cpu_count()
     if (DIRECTORY_SEPARATOR === '\\') {
         return 1;
     }
-    if (strtolower(PHP_OS) === 'darwin') {
+    $arch = strtolower(PHP_OS);
+    if ($arch === 'darwin') {
         $count = shell_exec('sysctl -n machdep.cpu.core_count');
+    } else if (str_contains($arch, 'cygwin')) {
+        $count = 1;
     } else {
         $count = shell_exec('nproc');
     }

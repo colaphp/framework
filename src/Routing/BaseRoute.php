@@ -1,14 +1,12 @@
 <?php
 
-namespace Swift\Routing;
+namespace Cola\Routing;
 
-use FastRoute\Dispatcher\GroupCountBased;
-use FastRoute\RouteCollector;
-use Swift\Routing\Route as Router;
+use Cola\Routing\Route as Router;
 
 /**
  * Class BaseRoute
- * @package Swift\Routing
+ * @package Cola\Routing
  */
 class BaseRoute
 {
@@ -44,7 +42,7 @@ class BaseRoute
      */
     public function __construct($methods, $path, $callback)
     {
-        $this->_methods = (array) $methods;
+        $this->_methods = (array)$methods;
         $this->_path = $path;
         $this->_callback = $callback;
     }

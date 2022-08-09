@@ -1,12 +1,12 @@
 <?php
 
-namespace Swift\Session;
+namespace Cola\Session;
 
 use Workerman\Protocols\Http\Session\RedisSessionHandler as SessionHandler;
 
 /**
  * Class RedisSessionHandler
- * @package Swift\Session
+ * @package Cola\Session
  */
 class RedisSessionHandler extends SessionHandler
 {

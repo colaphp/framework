@@ -1,16 +1,16 @@
 <?php
 
-namespace Swift\Queue\Redis\Process;
+namespace Cola\Queue\Redis\Process;
 
+use Cola\Container\Container;
+use Cola\Queue\Redis\Client;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
-use Swift\Container\Container;
-use Swift\Queue\Redis\Client;
 
 /**
  * Class Consumer
- * @package Swift\Queue\Redis\Process
+ * @package Cola\Queue\Redis\Process
  */
 class Consumer
 {
@@ -43,7 +43,7 @@ class Consumer
             $ext = $fileinfo->getExtension();
             if ($ext === 'php') {
                 $class = str_replace('/', "\\", substr(substr($file, strlen(base_path())), 0, -4));
-                if (is_a($class, 'Swift\Queue\Redis\Consumer', true)) {
+                if (is_a($class, 'Cola\Queue\Redis\Consumer', true)) {
                     $consumer = Container::get($class);
                     $connection_name = $consumer->connection ?? 'default';
                     $queue = $consumer->queue;
