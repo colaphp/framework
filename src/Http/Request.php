@@ -4,6 +4,7 @@ namespace Cola\Http;
 
 use Cola\Foundation\App;
 use Cola\Support\Arr;
+use Cola\Support\Str;
 use Workerman\Protocols\Http\Request as WorkerRequest;
 
 /**
@@ -288,6 +289,64 @@ class Request extends WorkerRequest
                 return true;
             }
         }
+        return false;
+    }
+
+    /**
+     * 生成请求令牌
+     * @access public
+     * @param  string $name 令牌名称
+     * @param  mixed  $type 令牌生成方法
+     * @return string
+     */
+    public function build_token(string $name = '__token__', $type = 'md5'): string
+    {
+        $type  = is_callable($type) ? $type : 'md5';
+        $token = call_user_func($type, Str::random() . microtime(true));
+
+        $this->session()->put($name, $token);
+
+        return $token;
+    }
+
+    /**
+     * 检查请求令牌
+     * @access public
+     * @param  string $token 令牌名称
+     * @param  array  $data  表单数据
+     * @return bool
+     */
+    public function check_token(string $token = '__token__', array $data = []): bool
+    {
+        if (in_array($this->method(), ['GET', 'HEAD', 'OPTIONS'], true)) {
+            return true;
+        }
+
+        if (!$this->session->has($token)) {
+            // 令牌数据无效
+            return false;
+        }
+
+        // Header验证
+        if ($this->header('X-CSRF-TOKEN') && $this->session->get($token) === $this->header('X-CSRF-TOKEN')) {
+            // 防止重复提交
+            $this->session->delete($token); // 验证完成销毁session
+            return true;
+        }
+
+        if (empty($data)) {
+            $data = $this->post();
+        }
+
+        // 令牌验证
+        if (isset($data[$token]) && $this->session->get($token) === $data[$token]) {
+            // 防止重复提交
+            $this->session->delete($token); // 验证完成销毁session
+            return true;
+        }
+
+        // 开启TOKEN重置
+        $this->session->delete($token);
         return false;
     }
 }
