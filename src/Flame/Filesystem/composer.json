@@ -1,0 +1,22 @@
+{
+    "name": "colaphp/filesystem",
+    "description": "The Cola Filesystem package.",
+    "license": "MIT",
+    "homepage": "https://www.colaphp.com",
+    "support": {
+        "issues": "https://github.com/colaphp/framework/issues",
+        "source": "https://github.com/colaphp/framework"
+    },
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Flame\\Filesystem\\": ""
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,24 @@
+{
+    "name": "colaphp/broadcasting",
+    "description": "The Cola Broadcasting package.",
+    "license": "MIT",
+    "homepage": "https://www.colaphp.com",
+    "support": {
+        "issues": "https://github.com/colaphp/framework/issues",
+        "source": "https://github.com/colaphp/framework"
+    },
+    "require": {
+        "php": "^8.2",
+        "ext-json": "*",
+        "psr/log": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Flame\\Broadcasting\\": ""
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}

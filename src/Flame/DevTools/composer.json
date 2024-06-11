@@ -1,0 +1,22 @@
+{
+    "name": "colaphp/devtools",
+    "description": "The Cola DevTools package.",
+    "license": "MIT",
+    "homepage": "https://www.colaphp.com",
+    "support": {
+        "issues": "https://github.com/colaphp/framework/issues",
+        "source": "https://github.com/colaphp/framework"
+    },
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Flame\\DevTools\\": ""
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}

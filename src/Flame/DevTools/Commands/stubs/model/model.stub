@@ -1,0 +1,26 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use Flame\Database\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class {$className}Model extends Model
+{$useSoftDelete
+    /**
+     * 设置表
+     */
+    protected $table = '$tableName';
+$primaryKeyStr
+$timeText
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+$fieldStr
+    ];
+}

@@ -1,0 +1,24 @@
+{
+    "name": "colaphp/contracts",
+    "description": "The Cola Contracts package.",
+    "license": "MIT",
+    "homepage": "https://www.colaphp.com",
+    "support": {
+        "issues": "https://github.com/colaphp/framework/issues",
+        "source": "https://github.com/colaphp/framework"
+    },
+    "require": {
+        "php": "^8.2",
+        "psr/container": "^2.0.1",
+        "psr/simple-cache": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Flame\\Contracts\\": ""
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}

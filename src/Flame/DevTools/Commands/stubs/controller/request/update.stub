@@ -1,0 +1,28 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Controllers\Request\{$camelName};
+
+use Flame\Validation\Validator;
+use OpenApi\Attributes as OA;
+
+#[OA\Schema(
+    schema: '{$name}UpdateRequest',
+    required: [
+{$dataSets[required]}
+    ],
+    properties: [
+{$dataSets[properties]}
+    ]
+)]
+class {$name}UpdateRequest extends Validator
+{
+    protected array $rule = [
+{$dataSets[rule]}
+    ];
+
+    protected array $message = [
+{$dataSets[message]}
+    ];
+}
