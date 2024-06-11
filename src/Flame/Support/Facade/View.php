@@ -9,10 +9,6 @@ use Flame\View\ViewManager;
 /**
  * @mixin ViewManager
  */
-class View extends Facade
+class View extends ViewManager
 {
-    protected static function getFacadeClass(): string
-    {
-        return ViewManager::class;
-    }
 }

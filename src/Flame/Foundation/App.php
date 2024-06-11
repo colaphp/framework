@@ -11,6 +11,7 @@ use Flame\Config\Config;
 use Flame\Container\Container;
 use Flame\Foundation\Configuration\Middleware;
 use Flame\Routing\Route;
+use Flame\Support\Arr;
 use Flame\Support\Facade\Log;
 use Flame\Support\Str;
 use Flame\Support\Util;
@@ -18,7 +19,6 @@ use InvalidArgumentException;
 use Monolog\Logger;
 use ReflectionClass;
 use ReflectionFunction;
-use ReflectionFunctionAbstract;
 use ReflectionMethod;
 use Reflector;
 use Flame\Contracts\Middleware as MiddlewareContract;
@@ -508,6 +508,9 @@ class App
         }
 
         $pathExplode = $path ? explode('/', $path) : [];
+        $pathExplode = Arr::where($pathExplode, function ($item, $key) {
+           return $key > 0;
+        });
 
         $action = 'index';
         if (! $controllerAction = static::guessControllerAction($pathExplode, $action)) {
@@ -518,6 +521,7 @@ class App
             unset($pathExplode[count($pathExplode) - 1]);
             $controllerAction = static::guessControllerAction($pathExplode, $action);
         }
+
         if ($controllerAction && ! isset($path[256])) {
             $cache[$path] = $controllerAction;
             if (count($cache) > 1024) {
@@ -538,14 +542,11 @@ class App
         }, $pathExplode);
 
         $suffix = Config::get("app.controller_suffix", '');
+
+        $defaultModule = Config::get('app.default_module', '');
+        $map[] = trim("\\App\\Http\\Controllers\\".$defaultModule.'\\'.implode('\\', $pathExplode), '\\');
+
         $map[] = trim("\\App\\Http\\Controllers\\".implode('\\', $pathExplode), '\\');
-
-        foreach ($pathExplode as $index => $section) {
-            $tmp = $pathExplode;
-            array_splice($tmp, $index, 1, [$section, 'Controllers']);
-            $map[] = trim("\\".implode('\\', array_merge(['App', 'Http'], $tmp)), '\\');
-        }
-
         foreach ($map as $item) {
             $map[] = $item.'\\Index';
         }
@@ -557,7 +558,6 @@ class App
             }
             $controllerClass .= $suffix;
             if ($controllerAction = static::getControllerAction($controllerClass, $action)) {
-                print_r($controllerAction);
                 return $controllerAction;
             }
         }
@@ -574,6 +574,7 @@ class App
         if (str_starts_with($action, '__')) {
             return false;
         }
+
         if (($controllerClass = static::getController($controllerClass)) && ($action = static::getAction($controllerClass, $action))) {
             return [
                 'app' => static::getAppByController($controllerClass),
@@ -656,14 +657,17 @@ class App
 
     protected static function getAppByController(string $controllerClass): string
     {
+        $defaultModule = Config::get('app.default_module', '');
+
         $controllerClass = trim($controllerClass, '\\');
         $tmp = explode('\\', $controllerClass, 5);
-        $pos = 1;
-        if (! isset($tmp[$pos])) {
+
+        $pos = 3;
+        if (! isset($tmp[$pos]) || $tmp[$pos] === $defaultModule) {
             return '';
         }
 
-        return strtolower($tmp[$pos]) === 'controller' ? '' : $tmp[$pos];
+        return strtolower($tmp[$pos]) === 'Controller' ? '' : $tmp[$pos];
     }
 
     public static function execPhpFile(string $file): false|string

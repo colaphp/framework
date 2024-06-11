@@ -47,7 +47,7 @@ function database_path(string $path = ''): string
  */
 function resource_path(string $path = ''): string
 {
-    return path_combine(BASE_PATH.DIRECTORY_SEPARATOR.'resource', $path);
+    return path_combine(BASE_PATH.DIRECTORY_SEPARATOR.'resources', $path);
 }
 
 /**

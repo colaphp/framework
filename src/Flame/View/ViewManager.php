@@ -4,57 +4,40 @@ declare(strict_types=1);
 
 namespace Flame\View;
 
-use Exception;
-use Flame\View\Contracts\View as ViewContract;
-use Illuminate\Contracts\View\Factory;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
+use Flame\Support\Str;
+use Flame\Contracts\View;
+use Jenssegers\Blade\Blade;
 
-class ViewManager implements ViewContract
+class ViewManager implements View
 {
-    private static ?Factory $view = null;
+    protected static array $_vars = [];
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    public function __construct()
+    public static function assign($name, $value = null): void
     {
-        if (is_null(self::$view)) {
-            $viewPath = resource_path('views');
-            $cachePath = runtime_path('views');
-            if (! is_dir($cachePath)) {
+        static::$_vars = array_merge(static::$_vars, is_array($name) ? $name : [$name => $value]);
+    }
+
+    public static function render(string $template, array $vars, string $app = null): string
+    {
+        static $views = [];
+
+        $app = is_null($app) ? request()->app : $app;
+        $app = empty($app) ? '__default' : $app;
+
+        if (! isset($views[$app])) {
+            $subDir = $app === '__default' ? '' : DIRECTORY_SEPARATOR . Str::snake($app);
+            $viewPath = resource_path('views' . $subDir);
+            $cachePath = runtime_path('views' . $subDir);
+            if (!is_dir($cachePath)) {
                 mkdir($cachePath, 0755, true);
             }
-
-            self::$view = new Blade($viewPath, $cachePath);
+            $views[$app] = new Blade($viewPath, $cachePath);
         }
-    }
 
-    protected array $vars = [];
+        $vars = array_merge(static::$_vars, $vars);
+        $content = $views[$app]->render($template, $vars);
+        static::$_vars = [];
 
-    public function assign($name, $value = null): void
-    {
-        $this->vars = array_merge($this->vars, is_array($name) ? $name : [$name => $value]);
-    }
-
-    public function render($template, $vars): string
-    {
-        $vars = array_merge($this->vars, $vars);
-
-        return self::$view->render($template, $vars);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function contentRender(string $content, array $vars): string
-    {
-        throw new Exception('暂时还不支持内容解析');
-    }
-
-    public function exists($template): bool
-    {
-        return self::$view->exists($template);
+        return $content;
     }
 }

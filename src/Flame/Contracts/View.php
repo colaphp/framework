@@ -8,5 +8,5 @@ interface View
 {
     public static function assign($name, $value = null);
 
-    public static function render(string $template, array $vars, ?string $app = null): string;
+    public static function render(string $template, array $vars): string;
 }
