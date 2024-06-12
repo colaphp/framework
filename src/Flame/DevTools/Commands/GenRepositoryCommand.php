@@ -30,22 +30,24 @@ class GenRepositoryCommand extends Command
             $columns = $this->getTableInfo($table['tableName']);
             $primaryKey = $this->getPrimaryKeyType($columns);
 
-            $this->repositoryTpl($table['className'], $primaryKey);
+            $this->repositoryTpl($table['tableName'], $table['className'], $primaryKey);
         }
 
         return 1;
     }
 
-    private function repositoryTpl(string $name, array $primaryKey): void
+    private function repositoryTpl(string $tableName, string $name, array $primaryKey): void
     {
         $primaryKeyType = empty($primaryKey) ? 'int' : $primaryKey['Type'];
 
         $content = file_get_contents(__DIR__.'/stubs/repository/repository.stub');
         $content = str_replace([
             '{$name}',
+            '{$tableName}',
             '{$primaryKeyType}',
         ], [
             $name,
+            $tableName,
             $primaryKeyType,
         ], $content);
         file_put_contents(app_path('Repositories/'.$name.'Repository.php'), $content);

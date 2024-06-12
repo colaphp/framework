@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Flame\Support\Facade;
 
-use Flame\Database\DB as DBManager;
+use Illuminate\Database\Capsule\Manager;
 
 /**
- * @mixin DBManager
+ * @mixin Manager
  */
-class DB extends DBManager
+class DB extends Manager
 {
 }

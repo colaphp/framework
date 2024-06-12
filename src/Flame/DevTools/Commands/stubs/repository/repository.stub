@@ -7,8 +7,10 @@ namespace App\Repositories;
 use App\Entities\{$name}Entity;
 use Exception;
 use Flame\Database\Contracts\RepositoryInterface;
-use Flame\Database\Model;
 use Flame\Database\Repositories\CurdRepository;
+use Flame\Support\Facade\DB;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 
 class {$name}Repository extends CurdRepository implements RepositoryInterface
 {
@@ -31,7 +33,7 @@ class {$name}Repository extends CurdRepository implements RepositoryInterface
      */
     public function createByEntity({$name}Entity $entity): {$primaryKeyType}
     {
-        return $this->create($entity->toArray());
+        return $this->save($entity->toArray());
     }
 
     /**
@@ -39,7 +41,7 @@ class {$name}Repository extends CurdRepository implements RepositoryInterface
      */
     public function findOneEntityById({$primaryKeyType} $id): ?{$name}Entity
     {
-        $data = $this->findOneById($id);
+        $data = $this->findById($id);
         if (empty($data)) {
             return null;
         }
@@ -55,7 +57,7 @@ class {$name}Repository extends CurdRepository implements RepositoryInterface
      */
     public function findOneEntity(array $condition): ?{$name}Entity
     {
-        $data = $this->findOneByWhere($condition);
+        $data = $this->find($condition);
         if (empty($data)) {
             return null;
         }
@@ -94,7 +96,7 @@ class {$name}Repository extends CurdRepository implements RepositoryInterface
      */
     public function paginateEntity(array $condition, int $page, int $pageSize): array
     {
-        $result = $this->paginate($condition, $page, $pageSize);
+        $result = $this->page($condition, $page, $pageSize);
 
         foreach ($result['data'] as $key => $item) {
             $entity = new {$name}Entity();
@@ -103,6 +105,14 @@ class {$name}Repository extends CurdRepository implements RepositoryInterface
         }
 
         return $result;
+    }
+
+    /**
+     * 定义数据表查询构造器
+     */
+    public function builder(): Builder
+    {
+        return DB::table('{$tableName}');
     }
 
     /**
