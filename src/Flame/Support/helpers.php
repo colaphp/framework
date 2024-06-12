@@ -92,7 +92,7 @@ function jsonp($data, string $callbackName = 'callback'): Response
         $data = json_encode($data);
     }
 
-    return new Response(200, [], "$callbackName($data)");
+    return new Response(200, [], $callbackName($data));
 }
 
 function redirect(string $location, int $status = 302, array $headers = []): Response
@@ -107,7 +107,7 @@ function redirect(string $location, int $status = 302, array $headers = []): Res
 
 function view(string $template, array $vars = [], ?string $app = null): Response
 {
-    return new Response(200, [], View::render($template, $vars));
+    return new Response(200, [], View::render($template, $vars, $app));
 }
 
 function request(): Request

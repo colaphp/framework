@@ -518,7 +518,7 @@ class App
                 return false;
             }
             $action = end($pathExplode);
-            unset($pathExplode[count($pathExplode) - 1]);
+            unset($pathExplode[count($pathExplode)]);
             $controllerAction = static::guessControllerAction($pathExplode, $action);
         }
 
@@ -541,11 +541,6 @@ class App
             return Str::studly($item);
         }, $pathExplode);
 
-        $suffix = Config::get("app.controller_suffix", '');
-
-        $defaultModule = Config::get('app.default_module', '');
-        $map[] = trim("\\App\\Http\\Controllers\\".$defaultModule.'\\'.implode('\\', $pathExplode), '\\');
-
         $map[] = trim("\\App\\Http\\Controllers\\".implode('\\', $pathExplode), '\\');
         foreach ($map as $item) {
             $map[] = $item.'\\Index';
@@ -556,7 +551,7 @@ class App
             if (str_ends_with($controllerClass, '\\Controller')) {
                 continue;
             }
-            $controllerClass .= $suffix;
+            $controllerClass .= 'Controller'; // add suffix
             if ($controllerAction = static::getControllerAction($controllerClass, $action)) {
                 return $controllerAction;
             }
@@ -657,17 +652,15 @@ class App
 
     protected static function getAppByController(string $controllerClass): string
     {
-        $defaultModule = Config::get('app.default_module', '');
-
         $controllerClass = trim($controllerClass, '\\');
         $tmp = explode('\\', $controllerClass, 5);
 
         $pos = 3;
-        if (! isset($tmp[$pos]) || $tmp[$pos] === $defaultModule) {
+        if (! isset($tmp[$pos])) {
             return '';
         }
 
-        return strtolower($tmp[$pos]) === 'Controller' ? '' : $tmp[$pos];
+        return str_ends_with($tmp[$pos], 'Controller') ? '' : $tmp[$pos];
     }
 
     public static function execPhpFile(string $file): false|string

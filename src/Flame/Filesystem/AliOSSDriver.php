@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Flame\Filesystem;
 
+use Exception;
 use Flame\Support\Facade\Log;
-use OSS\Core\OssException;
 use OSS\OssClient;
+use Throwable;
 
 class AliOSSDriver implements StorageInterface
 {
@@ -43,7 +44,7 @@ class AliOSSDriver implements StorageInterface
             $result = $this->instance()->uploadFile($this->config['bucket'], $object, $filePath);
 
             return ! empty($result);
-        } catch (OssException $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
 
             return false;
@@ -66,7 +67,7 @@ class AliOSSDriver implements StorageInterface
     {
         try {
             return $this->instance()->appendObject($this->config['bucket'], $object, $content, 0);
-        } catch (OssException $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
 
             return false;
@@ -75,7 +76,15 @@ class AliOSSDriver implements StorageInterface
 
     public function delete($object): bool
     {
-        return $this->instance()->deleteObject($this->config['bucket'], $object);
+        try {
+            $this->instance()->deleteObject($this->config['bucket'], $object);
+
+            return true;
+        } catch (Throwable $e) {
+            Log::error($e->getMessage());
+
+            return false;
+        }
     }
 
     public function isExists($object): bool
@@ -90,7 +99,7 @@ class AliOSSDriver implements StorageInterface
             $this->instance()->deleteObject($this->config['bucket'], $oldObject);
 
             return true;
-        } catch (OssException $e) {
+        } catch (Throwable $e) {
             Log::error($e->getMessage());
 
             return false;
@@ -98,7 +107,7 @@ class AliOSSDriver implements StorageInterface
     }
 
     /**
-     * @throws OssException
+     * @throws Exception
      */
     public function url(string $url, int $timeout = 3600, array $options = []): string
     {

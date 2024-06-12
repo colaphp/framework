@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Flame\Routing;
 
 use FastRoute\Dispatcher;
-use FastRoute\Dispatcher\GroupCountBased;
 use FastRoute\RouteCollector;
 use Flame\Routing\RouteItem as RouteObject;
 

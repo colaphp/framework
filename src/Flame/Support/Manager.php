@@ -46,7 +46,7 @@ abstract class Manager
     /**
      * 获取驱动类型
      */
-    protected function resolveType(string $name)
+    protected function resolveType(string $name): string
     {
         return $name;
     }
@@ -54,7 +54,7 @@ abstract class Manager
     /**
      * 获取驱动配置
      */
-    protected function resolveConfig(string $name)
+    protected function resolveConfig(string $name): string
     {
         return $name;
     }

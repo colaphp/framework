@@ -8,9 +8,6 @@ use Flame\Foundation\Contract\EnumMethodInterface;
 use Flame\Http\Response;
 use Throwable;
 
-/**
- * 公共控制器
- */
 abstract class Controller
 {
     /**
@@ -28,14 +25,14 @@ abstract class Controller
     /**
      * 返回失败JSON数据
      */
-    protected function fail(Throwable|EnumMethodInterface|string $message = 'fail', $code = 500): Response
+    protected function fail(EnumMethodInterface|Throwable|string $message = 'fail', $code = 500): Response
     {
-        if ($message instanceof Throwable) {
-            $code = $message->getCode();
-            $message = $message->getMessage();
-        } elseif ($message instanceof EnumMethodInterface) {
+        if ($message instanceof EnumMethodInterface) {
             $code = $message->getValue();
             $message = $message->getDescription();
+        } else if ($message instanceof Throwable) {
+            $code = $message->getCode();
+            $message = $message->getMessage();
         }
 
         return json([

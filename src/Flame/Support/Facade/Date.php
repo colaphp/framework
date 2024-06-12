@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Flame\Support\Facade;
 
-use Flame\Support\DateFactory;
+use Illuminate\Support\DateFactory;
 
 /**
  * @mixin DateFactory

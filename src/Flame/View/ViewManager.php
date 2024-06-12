@@ -34,8 +34,7 @@ class ViewManager implements View
             $views[$app] = new Blade($viewPath, $cachePath);
         }
 
-        $vars = array_merge(static::$_vars, $vars);
-        $content = $views[$app]->render($template, $vars);
+        $content = $views[$app]->render($template, array_merge(static::$_vars, $vars));
         static::$_vars = [];
 
         return $content;

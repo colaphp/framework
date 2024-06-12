@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flame\Support;
 
 use Carbon\Carbon;
@@ -10,11 +12,8 @@ trait InteractsWithTime
 {
     /**
      * Get the number of seconds until the given DateTime.
-     *
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
-     * @return int
      */
-    protected function secondsUntil($delay)
+    protected function secondsUntil($delay): int
     {
         $delay = $this->parseDateInterval($delay);
 
@@ -25,11 +24,8 @@ trait InteractsWithTime
 
     /**
      * Get the "available at" UNIX timestamp.
-     *
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
-     * @return int
      */
-    protected function availableAt($delay = 0)
+    protected function availableAt($delay = 0): int
     {
         $delay = $this->parseDateInterval($delay);
 
@@ -40,11 +36,8 @@ trait InteractsWithTime
 
     /**
      * If the given value is an interval, convert it to a DateTime instance.
-     *
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
-     * @return \DateTimeInterface|int
      */
-    protected function parseDateInterval($delay)
+    protected function parseDateInterval($delay): int
     {
         if ($delay instanceof DateInterval) {
             $delay = Carbon::now()->add($delay);
@@ -55,10 +48,8 @@ trait InteractsWithTime
 
     /**
      * Get the current system time as a UNIX timestamp.
-     *
-     * @return int
      */
-    protected function currentTime()
+    protected function currentTime(): int
     {
         return Carbon::now()->getTimestamp();
     }

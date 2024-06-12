@@ -1,10 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flame\Pagination;
 
-/**
- * Class Paginator
- */
 class Paginator
 {
     const NUM_PLACEHOLDER = '(:num)';

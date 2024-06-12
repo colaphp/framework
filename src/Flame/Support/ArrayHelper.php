@@ -13,7 +13,7 @@ trait ArrayHelper
     {
         foreach ($row as $col => $val) {
             if (! is_null($val)) {
-                $setMethod = 'set'.parse_name($col, 1);
+                $setMethod = 'set'.Str::studly($col);
                 if (method_exists($this, $setMethod)) {
                     $this->$setMethod($val);
                 }

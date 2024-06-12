@@ -9,8 +9,6 @@ use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 
 /**
- * Class Cache
- *
  * @method static mixed get($key, $default = null)
  * @method static bool set($key, $value, $ttl = null)
  * @method static bool delete($key)

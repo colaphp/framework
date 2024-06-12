@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Flame\Validation;
 
 /**
- * Class ValidRule
- *
  * @method ValidRule confirm(mixed $field, string $msg = '') static 验证是否和某个字段的值一致
  * @method ValidRule different(mixed $field, string $msg = '') static 验证是否和某个字段的值是否不同
  * @method ValidRule egt(mixed $value, string $msg = '') static 验证是否大于等于某个值
