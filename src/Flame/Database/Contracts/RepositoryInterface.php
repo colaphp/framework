@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Flame\Database\Contracts;
 
-use Flame\Database\Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 
 interface RepositoryInterface
