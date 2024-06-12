@@ -206,6 +206,6 @@ abstract class CurdRepository implements CurdRepositoryInterface
      */
     public function getPrimaryKey(): string
     {
-        return $this->model()->getKey();
+        return $this->model()->getKeyName();
     }
 }
