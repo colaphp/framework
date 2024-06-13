@@ -11,6 +11,8 @@ use Intervention\Image\ImageManager;
  */
 class Image extends Facade
 {
+    protected static bool $alwaysNewInstance = false;
+
     protected static function getFacadeClass(): string
     {
         self::$instance[ImageManager::class] = ImageManager::gd();
