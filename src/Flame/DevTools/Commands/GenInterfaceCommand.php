@@ -20,14 +20,14 @@ class GenInterfaceCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $distDir = resource_path('js');
+        $distDir = resource_path('assets/js');
         foreach (['services', 'types'] as $d) {
             if (! is_dir($distDir.'/'.$d)) {
                 mkdir($distDir.'/'.$d, 0755, true);
             }
         }
 
-        $files = glob(public_path('docs/api/*.json'));
+        $files = glob(base_path('docs/api/*.json'));
         foreach ($files as $file) {
             $module = basename($file, '.json');
             $data = json_decode(file_get_contents($file), true);
@@ -47,10 +47,6 @@ class GenInterfaceCommand extends Command
             $apis = []; // API接口
             $types = []; // 参数类型
             foreach ($data['paths'] as $path => $item) {
-                if (Config::get('route.context_path')) {
-                    $path = str_replace(Config::get('route.context_path'), '/', $path);
-                }
-
                 $requestParams = '';
                 $requestBody = '';
 
