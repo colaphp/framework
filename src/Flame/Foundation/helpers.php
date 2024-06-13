@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Flame\Http\Response;
 use Flame\Support\Carbon;
-use Flame\Support\Facade\Request;
 
 /**
  * 标准时间
@@ -24,14 +23,6 @@ function uname(): string
     }
 
     return strtoupper(PHP_OS);
-}
-
-/**
- * 返回资源url链接
- */
-function asset(string $url): string
-{
-    return Request::root().'/'.ltrim($url, '/');
 }
 
 /**
@@ -69,35 +60,54 @@ function is_mobile(string $mobile): bool
 }
 
 /**
+ * URL生成
+ */
+function url(string $url = '', array $params = []): string
+{
+    $url = '/'.ltrim($url, '/');
+
+    if (! empty($params)) {
+        if (str_contains($url, '?')) {
+            $url .= '&';
+        } else {
+            $url .= '?';
+        }
+
+        $url .= http_build_query($params, '', '&');
+    }
+
+    return $url;
+}
+
+/**
  * 缓存管理
  */
 function cache(?string $name = null, $value = '', $options = null)
 {
-
-}
-
-/**
- * URL生成
- */
-function url(?string $url = null, array $params = []): string
-{
-    return route($url, $params);
+    // TODO
 }
 
 /**
  * Cookie管理
  */
-function cookie(string $name, $value = '', $option = null)
+function cookie(string $name, string $value = '', $option = null): Response
 {
+    $maxAge = $option['maxAge'] ?? null;
+    $path = $option['path'] ?? '';
+    $domain = $option['domain'] ?? '';
+    $secure = $option['secure'] ?? false;
+    $httpOnly = $option['httpOnly'] ?? false;
+    $sameSite = $option['sameSite'] ?? '';
 
+    return response()->cookie($name, $value, $maxAge, $path, $domain, $secure, $httpOnly, $sameSite);
 }
 
 /**
  * 获取下载对象
  */
-function download(string $filename, string $name = '', bool $content = false, int $expire = 180): Response
+function download(string $filename, string $name = ''): Response
 {
-    return Response::create($filename, 'file')->name($name)->isContent($content)->expire($expire);
+    return response()->download($filename, $name);
 }
 
 /**

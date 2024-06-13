@@ -4,13 +4,19 @@ declare(strict_types=1);
 
 namespace Flame\Foundation;
 
+use App\Exceptions\Handler;
 use Closure;
 use Exception;
 use FastRoute\Dispatcher;
 use Flame\Config\Config;
 use Flame\Container\Container;
+use Flame\Contracts\Middleware as MiddlewareContract;
 use Flame\Foundation\Configuration\Middleware;
+use Flame\Foundation\Contract\ExceptionHandlerInterface;
+use Flame\Http\Request;
+use Flame\Http\Response;
 use Flame\Routing\Route;
+use Flame\Routing\RouteItem as RouteObject;
 use Flame\Support\Arr;
 use Flame\Support\Facade\Log;
 use Flame\Support\Str;
@@ -21,13 +27,7 @@ use ReflectionClass;
 use ReflectionFunction;
 use ReflectionMethod;
 use Reflector;
-use Flame\Contracts\Middleware as MiddlewareContract;
 use Throwable;
-use Flame\Foundation\Exception\ExceptionHandler;
-use Flame\Foundation\Contract\ExceptionHandlerInterface;
-use Flame\Http\Request;
-use Flame\Http\Response;
-use Flame\Routing\RouteItem as RouteObject;
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http;
 use Workerman\Worker;
@@ -147,15 +147,12 @@ class App
     protected static function exceptionResponse(Throwable $e, $request): Response
     {
         try {
-            $app = $request->app ?: '';
-            $exceptionConfig = static::config('exception');
-            $defaultException = $exceptionConfig[''] ?? ExceptionHandler::class;
-            $exceptionHandlerClass = $exceptionConfig[$app] ?? $defaultException;
+            $exceptionHandlerClass = Handler::class;
 
             /** @var ExceptionHandlerInterface $exceptionHandler */
             $exceptionHandler = static::container()->make($exceptionHandlerClass, [
                 'logger' => static::$logger,
-                'debug' => static::config( 'app.debug'),
+                'debug' => static::config('app.debug'),
             ]);
             $exceptionHandler->report($e);
             $response = $exceptionHandler->render($request, $e);
@@ -509,7 +506,7 @@ class App
 
         $pathExplode = $path ? explode('/', $path) : [];
         $pathExplode = Arr::where($pathExplode, function ($item, $key) {
-           return $key > 0;
+            return $key > 0;
         });
 
         $action = 'index';
@@ -541,7 +538,7 @@ class App
             return Str::studly($item);
         }, $pathExplode);
 
-        $map[] = trim("\\App\\Http\\Controllers\\".implode('\\', $pathExplode), '\\');
+        $map[] = trim('\\App\\Http\\Controllers\\'.implode('\\', $pathExplode), '\\');
         foreach ($map as $item) {
             $map[] = $item.'\\Index';
         }
@@ -708,6 +705,7 @@ class App
                 if (! method_exists($data, '__toString')) {
                     return 'Object';
                 }
+
                 return (string) $data;
             default:
                 return (string) $data;

@@ -32,6 +32,7 @@
     "illuminate/database": "^11.9",
     "illuminate/redis": "^11.9",
     "illuminate/pagination": "^11.9",
+    "illuminate/view": "~11.7.0",
     "intervention/image": "^3.6",
     "jenssegers/blade": "^2.0",
     "monolog/monolog": "^3.6",

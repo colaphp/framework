@@ -29,6 +29,7 @@ class Request extends WorkerRequest
             return $post[$name];
         }
         $get = $this->get();
+
         return $get[$name] ?? $default;
     }
 
@@ -41,6 +42,7 @@ class Request extends WorkerRequest
                 $result[$key] = $all[$key];
             }
         }
+
         return $result;
     }
 
@@ -50,13 +52,14 @@ class Request extends WorkerRequest
         foreach ($keys as $key) {
             unset($all[$key]);
         }
+
         return $all;
     }
 
     public function file($name = null)
     {
         $files = parent::file($name);
-        if (null === $files) {
+        if ($files === null) {
             return $name === null ? [] : null;
         }
         if ($name !== null) {
@@ -64,6 +67,7 @@ class Request extends WorkerRequest
             if (is_array(current($files))) {
                 return $this->parseFiles($files);
             }
+
             return $this->parseFile($files);
         }
         $uploadFiles = [];
@@ -75,6 +79,7 @@ class Request extends WorkerRequest
                 $uploadFiles[$name] = $this->parseFile($file);
             }
         }
+
         return $uploadFiles;
     }
 
@@ -93,6 +98,7 @@ class Request extends WorkerRequest
                 $uploadFiles[$key] = $this->parseFile($file);
             }
         }
+
         return $uploadFiles;
     }
 
@@ -119,7 +125,7 @@ class Request extends WorkerRequest
     public function getRealIp(bool $safeMode = true): string
     {
         $remoteIp = $this->getRemoteIp();
-        if ($safeMode && !static::isIntranetIp($remoteIp)) {
+        if ($safeMode && ! static::isIntranetIp($remoteIp)) {
             return $remoteIp;
         }
         $ip = $this->header('x-real-ip', $this->header('x-forwarded-for',
@@ -128,17 +134,18 @@ class Request extends WorkerRequest
         if (is_string($ip)) {
             $ip = current(explode(',', $ip));
         }
+
         return filter_var($ip, FILTER_VALIDATE_IP) ? $ip : $remoteIp;
     }
 
     public function url(): string
     {
-        return '//' . $this->host() . $this->path();
+        return '//'.$this->host().$this->path();
     }
 
     public function fullUrl(): string
     {
-        return '//' . $this->host() . $this->uri();
+        return '//'.$this->host().$this->uri();
     }
 
     public function isAjax(): bool
@@ -148,12 +155,12 @@ class Request extends WorkerRequest
 
     public function isPjax(): bool
     {
-        return (bool)$this->header('X-PJAX');
+        return (bool) $this->header('X-PJAX');
     }
 
     public function expectsJson(): bool
     {
-        return ($this->isAjax() && !$this->isPjax()) || $this->acceptJson();
+        return ($this->isAjax() && ! $this->isPjax()) || $this->acceptJson();
     }
 
     public function acceptJson(): bool
@@ -164,15 +171,15 @@ class Request extends WorkerRequest
     public static function isIntranetIp(string $ip): bool
     {
         // Not validate ip .
-        if (!filter_var($ip, FILTER_VALIDATE_IP)) {
+        if (! filter_var($ip, FILTER_VALIDATE_IP)) {
             return false;
         }
         // Is intranet ip ? For IPv4, the result of false may not be accurate, so we need to check it manually later .
-        if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+        if (! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
             return true;
         }
         // Manual check only for IPv4 .
-        if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+        if (! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             return false;
         }
         // Manual check .
@@ -192,6 +199,7 @@ class Request extends WorkerRequest
                 return true;
             }
         }
+
         return false;
     }
 }

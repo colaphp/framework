@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Flame\DevTools;
 
 use Flame\Support\Arr;
-use Flame\Support\Str;
 use Flame\Support\Facade\DB;
+use Flame\Support\Str;
 use Illuminate\Filesystem\Filesystem;
 
 trait SchemaTrait

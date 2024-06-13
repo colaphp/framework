@@ -12,5 +12,4 @@ use Illuminate\Redis\Connections\PhpRedisConnection;
  */
 class Redis extends RedisManager
 {
-
 }

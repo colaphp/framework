@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Flame\Database\Services;
 
-use Flame\Foundation\Exception\CustomException;
 use Flame\Database\Contracts\CommonServiceInterface;
 use Flame\Database\Contracts\CurdRepositoryInterface;
+use Flame\Foundation\Exception\CustomException;
 
 /**
  * @method CurdRepositoryInterface getRepository()

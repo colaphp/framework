@@ -30,7 +30,7 @@ abstract class Controller
         if ($message instanceof EnumMethodInterface) {
             $code = $message->getValue();
             $message = $message->getDescription();
-        } else if ($message instanceof Throwable) {
+        } elseif ($message instanceof Throwable) {
             $code = $message->getCode();
             $message = $message->getMessage();
         }
