@@ -56,4 +56,5 @@ foreach (config('app.providers', []) as $className) {
     $className::start($worker);
 }
 
-Route::load([base_path('routes')]);
+$apiRoutes = glob(app_path('API/*/Routes'), GLOB_ONLYDIR);
+Route::load([base_path('routes'), ...$apiRoutes]);
