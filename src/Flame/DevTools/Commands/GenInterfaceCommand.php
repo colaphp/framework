@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Flame\DevTools\Commands;
 
-use Flame\Config\Config;
 use Flame\Support\Str;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
